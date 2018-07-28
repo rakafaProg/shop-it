@@ -1,4 +1,24 @@
-<p>
-  admin-main works!
-</p>
+<!-- menu -->
+<div class="ui stackable inverted menu">
+  <a class="item ui header yellow" routerLink="./">
+    <i class="gift icon"></i>
+    הפנינג - ניהול
+  </a>
+  <a class="item ui header orange" routerLink="./new-product">
+    <i class="plus circle icon"></i>
+    הוסף מוצר
+  </a>
+
+  <div class="right menu"></div>
+
+  <div class="item ui header yellow">
+    <i class="id badge outline icon"></i>
+    {{userName}}&nbsp;&nbsp;
+  </div>
+  <a class="item ui header yellow" routerLink="/">
+    <i class="sign out alternate icon"></i>
+    התנתק&nbsp;&nbsp;
+  </a>
+</div>
+
 <router-outlet></router-outlet>

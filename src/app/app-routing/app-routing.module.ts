@@ -14,12 +14,18 @@ import { ViewPastOrdersComponent } from '../user/profile/view-past-orders/view-p
 import { AdminMainComponent } from '../admin/admin-main/admin-main.component';
 import { AdminViewComponent } from '../admin/admin-view/admin-view.component';
 import { CreateProductComponent } from '../admin/create-product/create-product.component';
+import { ViewUserDetailsComponent } from '../user/profile/view-user-details/view-user-details.component';
 
 const routes: Routes = [
   {
     path: '',
     component: GenericMainComponent,
     children: [
+      {
+        path: '',
+        redirectTo: 'about',
+        pathMatch: 'full'
+      },
       {
         path: 'about',
         component: AboutComponent,
@@ -43,31 +49,39 @@ const routes: Routes = [
         component: WellcomeComponent
       },
       {
+        path: 'about',
+        component: AboutComponent
+      },
+      {
         path: 'shopping',
         component: ShoppingMainComponent
       },
       {
         path: 'place-order',
         component: PlaceOrderMainComponent
-      }
+      },
+      {
+        path: 'profile',
+        component: ProfileMainComponent,
+        children: [
+          {
+            path: '',
+            component: ViewUserDetailsComponent
+          },
+          {
+            path: 'edit',
+            component: EditUserDetailsComponent
+          },
+          {
+            path: 'orders',
+            component: ViewPastOrdersComponent
+          }
+        ]
+      },
     ]
   },
   {
-    path: 'profile',
-    component: ProfileMainComponent,
-    children: [
-      {
-        path: 'edit',
-        component: EditUserDetailsComponent
-      },
-      {
-        path: 'orders',
-        component: ViewPastOrdersComponent
-      }
-    ]
-  },
-  { 
-    path: 'admin', 
+    path: 'admin',
     component: AdminMainComponent,
     children: [
       {

@@ -28,6 +28,7 @@ import { AdminMainComponent } from './admin/admin-main/admin-main.component';
 import { ShoppingMainComponent } from './user/shopping/shopping-main/shopping-main.component';
 import { PlaceOrderMainComponent } from './user/place-order/place-order-main/place-order-main.component';
 import { ProfileMainComponent } from './user/profile/profile-main/profile-main.component';
+import { ViewUserDetailsComponent } from './user/profile/view-user-details/view-user-details.component';
 
 @NgModule({
   declarations: [
@@ -54,7 +55,8 @@ import { ProfileMainComponent } from './user/profile/profile-main/profile-main.c
     AdminMainComponent,
     ShoppingMainComponent,
     PlaceOrderMainComponent,
-    ProfileMainComponent
+    ProfileMainComponent,
+    ViewUserDetailsComponent
   ],
   imports: [
     BrowserModule,

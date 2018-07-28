@@ -7,6 +7,22 @@
  * This file will effect the whole project.
  */
 
-body {
+*:not(i) {
     direction: rtl;
+    font-family: 'Varela Round' !important;
 }
+
+body {
+    background-color: #FFC55A;
+    width: 100%;
+    padding-top: 15px;
+}
+
+.hidden {
+    display: none;
+}
+
+.center {
+    text-align: center;
+}
+

@@ -7,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AdminMainComponent implements OnInit {
 
+  userName = 'רקפת';
+
   constructor() { }
 
   ngOnInit() {

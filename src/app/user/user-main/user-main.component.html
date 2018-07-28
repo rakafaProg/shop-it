@@ -1,4 +1,33 @@
-<p>
-  user-main works!
-</p>
+<!-- menu -->
+<div class="ui stackable inverted menu">
+  <a class="item ui header yellow" routerLink="./">
+    <i class="gift icon"></i>
+    הפנינג - מתנות
+  </a>
+  <a class="item ui header orange" routerLink="./about">
+    <i class="comment alternate icon"></i>
+    אודות
+  </a>
+  <a class="item ui header orange" routerLink="./shopping">
+    <i class="shopping basket icon"></i>
+    מוצרים
+  </a>
+  <a class="item ui header orange" routerLink="./place-order">
+    <i class="credit card icon"></i>
+    בצע הזמנה
+  </a>
+
+  <div class="right menu"></div>
+
+
+  <a class="item ui header yellow" routerLink="./profile">
+    <i class="id badge outline icon"></i>
+    {{userName}}&nbsp;&nbsp;
+  </a>
+  <a class="item ui header yellow" routerLink="/">
+    <i class="sign out alternate icon"></i>
+    התנתק&nbsp;&nbsp;
+  </a>
+</div>
+
 <router-outlet></router-outlet>
