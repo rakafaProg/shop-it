@@ -53,8 +53,13 @@ const routes: Routes = [
         component: AboutComponent
       },
       {
-        path: 'shopping',
+        path: 'shopping/:category',
         component: ShoppingMainComponent
+      },
+      {
+        path: 'shopping',
+        redirectTo: 'shopping/1',
+        pathMatch: 'full'
       },
       {
         path: 'place-order',

@@ -1,3 +1,9 @@
-<p>
-  categories-header works!
-</p>
+<div class="ui top attached tabular menu main">
+
+  <a *ngFor="let c of categories" class="item" routerLink="/happ/shopping/{{c.code}}">
+    {{c.text}}
+  </a>
+
+
+
+</div>

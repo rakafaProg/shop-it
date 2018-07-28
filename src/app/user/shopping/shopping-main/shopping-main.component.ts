@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+declare var $: any;
 
 @Component({
   selector: 'shopping-main',
@@ -10,6 +11,13 @@ export class ShoppingMainComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    $(document).ready(() => {
+      $('.menu .item').tab();
+    });
+  }
+
+  sideBarToggle() {
+    $('.ui.sidebar').toggleClass('visible');
   }
 
 }
