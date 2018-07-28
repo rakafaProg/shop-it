@@ -35,3 +35,12 @@ body {
 p {
     font-size: 18px;
 }
+
+.login-container {
+    max-width: 600px;
+    margin: 50px auto !important;
+}
+
+.form .fluid:not(.dropdown) {
+    margin:  5% auto;
+}

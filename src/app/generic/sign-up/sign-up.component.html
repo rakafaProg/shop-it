@@ -1,3 +1,49 @@
-<p>
-  sign-up works!
-</p>
+<div class="ui segment main center login-container orange">
+
+  <img src="assets/coloredLogo.png" class="ui centered image">
+  <h1 class="ui header orange">
+    <i class="user plus icon"></i>
+    צור חשבון חדש
+  </h1>
+  <div class="ui form">
+    <div class="ui stacked segment orange">
+      <p class="ui header grey">
+        רשום כבר לאתר?
+        <br>
+        <a routerLink="/login">
+          <i class="sign in icon"></i>
+          התחבר לחשבונך
+        </a>
+      </p>
+      <div *ngIf="state==1">
+        <div class="ui left icon fluid input">
+          <i class="user icon"></i>
+          <input type="text" name="username" placeholder="שם משתמש">
+        </div>
+        <div class="ui left icon fluid input">
+          <i class="id badge icon"></i>
+          <input type="text" name="id" placeholder="מספר זהות">
+        </div>
+        <div class="ui left icon fluid input">
+          <i class="envelope icon"></i>
+          <input type="email" name="email" placeholder="כתובת מייל">
+        </div>
+        <div class="ui left icon fluid input">
+          <i class="phone icon"></i>
+          <input type="text" name="phone" placeholder="מספר טלפון">
+        </div>
+        <div class="ui left icon fluid input">
+          <i class="lock icon"></i>
+          <input type="password" name="passowrd" placeholder="סיסמה">
+        </div>
+        <div class="ui left icon fluid input">
+          <i class="lock open icon"></i>
+          <input type="password" name="repeatpassowrd" placeholder="אמת סיסמה">
+        </div>
+        <button class="ui fluid larg orange submit button" (click)=nextFase()>המשך</button>
+      </div>
+
+      <sign-up-2 *ngIf="state==2"></sign-up-2>
+    </div>
+  </div>
+</div>

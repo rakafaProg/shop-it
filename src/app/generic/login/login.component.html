@@ -1,3 +1,30 @@
-<p>
-  login works!
-</p>
+<div class="ui segment main center login-container orange">
+
+  <img src="assets/coloredLogo.png" class="ui centered image">
+  <h1 class="ui header orange">
+    <i class="sign in icon"></i>
+    התחבר לחשבונך
+  </h1>
+  <div class="ui form">
+    <div class="ui stacked segment orange">
+      <p class="ui header grey">
+        הכנס את שם המשתמש והסיסמה איתם נרשמת לאתר.
+        <br> אינך רשום לאתר?
+        <br>
+        <a routerLink="/signup">
+          <i class="user plus icon"></i>
+          צור חשבון חדש
+        </a>
+      </p>
+      <div class="ui left icon fluid input">
+        <i class="user icon"></i>
+        <input type="text" name="username" placeholder="שם משתמש">
+      </div>
+      <div class="ui left icon fluid input">
+        <i class="lock icon"></i>
+        <input type="password" name="passowrd" placeholder="סיסמה">
+      </div>
+      <button class="ui fluid larg orange submit button" routerLink="/admin">התחבר</button>
+    </div>
+  </div>
+</div>

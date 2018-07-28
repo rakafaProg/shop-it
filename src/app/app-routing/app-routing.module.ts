@@ -41,7 +41,7 @@ const routes: Routes = [
     ]
   },
   {
-    path: 'shop-it',
+    path: 'happ',
     component: UserMainComponent,
     children: [
       {
