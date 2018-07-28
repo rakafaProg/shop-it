@@ -1,1 +1,12 @@
-/* You can add global styles to this file, and also import other style files */
+/**
+ * ===================================
+ * styles.css
+ * created by Rakefet Yifrach 2018
+ * ===================================
+ * This is a the main styles file.
+ * This file will effect the whole project.
+ */
+
+body {
+    direction: rtl;
+}

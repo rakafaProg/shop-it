@@ -16,11 +16,15 @@
       "polyfills": "polyfills.ts",
       "test": "test.ts",
       "tsconfig": "tsconfig.json",
-      "prefix": "app",
+      "prefix": "",
       "styles": [
+        "../semantic/dist/semantic.min.css",
+        "../semantic/dist/semantic.rtl.min.css",
         "styles.css"
       ],
-      "scripts": [],
+      "scripts": [
+        "../semantic/dist/semantic.min.js"
+      ],
       "environments": {
         "source": "environments/environment.ts",
         "dev": "environments/environment.ts",
