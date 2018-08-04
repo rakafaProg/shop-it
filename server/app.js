@@ -3,6 +3,7 @@ const path = require('path');
 const cors = require('cors');
 
 const login = require('./login');
+const generic = require('./generic');
 
 const app = express();
 const PORT = 8080;
@@ -14,6 +15,7 @@ app.use(express.static(root));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(login);
+app.use(generic);
 
 app.get('*', (req, res) => {
     res.sendFile('index.html', { root });

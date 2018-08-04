@@ -25,6 +25,9 @@ body {
 .center {
     text-align: center;
 }
+.centered {
+    text-align: center;
+}
 
 .main {
     width: 90%;
@@ -39,8 +42,4 @@ p {
 .login-container {
     max-width: 600px;
     margin: 50px auto !important;
-}
-
-.form .fluid:not(.dropdown) {
-    margin:  5% auto;
 }

@@ -1,3 +1,123 @@
-<p>
-  create-product works!
-</p>
+<div class="main">
+  <div class="ui stackable centered grid">
+    <div class="ten wide column">
+      <div class="ui inverted segment">
+        <div class="ui inverted form">
+
+          <h2 class="ui header orange">הוסף מוצר</h2>
+
+          <div *ngIf="status==0">
+
+            <h4 class="ui dividing yellow header">פרטי מוצר</h4>
+            <div class="three fields">
+              <div class="field">
+                <label>מק"ט</label>
+                <input placeholder='מק"ט' type="text" [(ngModel)]="product.code">
+              </div>
+              <div class="field">
+                <label>שם מוצר</label>
+                <input placeholder="שם מוצר" type="text" [(ngModel)]="product.name">
+              </div>
+              <div class="field">
+                <label>מחיר</label>
+                <input placeholder="מחיר" type="number" [(ngModel)]="product.price">
+              </div>
+            </div>
+            <div class="field">
+              <label>פרטי המוצר</label>
+              <textarea placeholder="אנא פרט על המוצר ככל הניתן..." [(ngModel)]="product.details"></textarea>
+            </div>
+
+            <h4 class="ui dividing yellow header">קטגוריות</h4>
+            <div class="ui stackable grid row">
+              <div *ngFor="let cat of categories" class="inline five wide column field">
+                <div class="ui checkbox">
+                  <label>{{cat.name}}</label>
+                  <input type="checkbox" value="{{cat.id}}" [(ngModel)]="checkedCategories[cat.id]">
+                </div>
+              </div>
+            </div>
+
+            <h4 class="ui dividing yellow header">תמונה</h4>
+            <div class="ui stackable two column grid row">
+              <div class="column">
+                <div class="field hidden">
+                  <label>בחר תמונה</label>
+
+                </div>
+                <div class="field">
+                  <label>או הכנס קישור לתמונה</label>
+                  <input type="text" placeholder="הכנס קישור חיצוני לתמונה" [(ngModel)]="product.imageUrl">
+                </div>
+              </div>
+              <div class="column">
+                <img class="ui image" src="{{product.imageUrl}}">
+              </div>
+
+            </div>
+
+
+
+            <br />
+            <div *ngIf="validate()" class="ui submit orange button fluid" (click)=sendForm()>שמור</div>
+
+
+
+
+          </div>
+
+          <div *ngIf="status==1">
+            <div class="ui segment inverted">
+              <br>
+              <br>
+              <br>
+              <br>
+              <br>
+              <br>
+              <div class="ui active inverted dimmer"> 
+                <h3 class="ui header orange">
+                    <br><br><br><br>
+                  שומר את המוצר שלך
+                  <br> אנא המתן...
+                </h3>
+                <div class="ui text loader">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div *ngIf="status==2">
+            <br>
+            <br>
+            <h3 class="center">שמירת המוצר הסתיימה בהצלחה</h3>
+            <div class="ui fluid buttons">
+              <button class="ui positive button" (click)="newProduct()">הוסף עוד מוצר</button>
+              <div class="or" data-text="או"></div>
+              <button class="ui button" routerLink="/admin">חזור לדף הבית</button>
+            </div>
+
+
+          </div>
+
+          <div *ngIf="status==3">
+
+            <br>
+            <br>
+
+            <h3 class="center">
+              <i class="ban red icon"></i> נכשל בשמירת המוצר
+              <i class="ban red icon"></i>
+            </h3>
+            <div class="ui fluid buttons">
+              <button class="ui positive button" (click)="sendForm()">נסה שנית</button>
+              <div class="or" data-text="או"></div>
+              <button class="ui  button" (click)="status=0">ערוך פרטי מוצר</button>
+            </div>
+          </div>
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
