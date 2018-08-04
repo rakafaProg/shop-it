@@ -26,12 +26,34 @@ router.post('/signup', (req, res) => {
             { id, email, phone, password, first_name, last_name, street_name, house_number },
             { city_id },
             (data, err) => {
-                if (data.success) {
+                if (!err && data.success) {
                     res.send({ success: true, toUrl: '/happ' });
+                } else {
+                    res.status(500).send({ success: false, msg: 'User Creating Failed.' });
                 }
-            })
+            });
     } else {
-        res.send({ success: false });
+        res.status(400).send({ success: false, msg: 'Invalid Data' });
+    }
+});
+
+router.post('/login', (req, res) => {
+    const { id, password } = req.body.user;
+    if (validateID({ id }) && password && password.length > 8) {
+        db.getQuery(`SELECT first_name FROM USERS WHERE id='${id}' AND password='${password}'`, (data, err) => {
+            if (!err && data.length > 0) {
+                db.getQuery(`SELECT * FROM admins WHERE id='${id}'`, (data, err) => {
+                    if (!err && data.length > 0)
+                        res.status(200).send({ success: true, toUrl: '/admin' });
+                    else
+                        res.status(200).send({ success: true, toUrl: '/happ' });
+                });
+            } else {
+                res.status(400).send({ success: false, msg: 'Wrong login' });
+            }
+        });
+    } else {
+        res.status(400).send({ success: false, msg: 'Invalid Data' });
     }
 });
 

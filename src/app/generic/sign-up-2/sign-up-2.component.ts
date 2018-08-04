@@ -13,6 +13,7 @@ export class SignUp2Component implements OnInit {
   @Input() user: any;
   cities: any = [];
   invalid = false;
+  signupFaild = false;
 
   constructor(private dataService: DataService) { }
 
@@ -40,6 +41,7 @@ export class SignUp2Component implements OnInit {
           onChange: (text, value) => {
             this.user.city_id = text;
             this.invalid = false;
+            this.signupFaild = false;
           }
         });
     });
@@ -54,18 +56,23 @@ export class SignUp2Component implements OnInit {
       return;
     }
 
-    this.user.password = Md5.hashStr(this.user.password);
-    this.user.repeatPassword = Md5.hashStr(this.user.repeatPassword);
-    this.dataService.signUp({ user: this.user })
+    this.dataService.signUp({
+      user: {
+        ...this.user,
+        password: Md5.hashStr(this.user.password),
+        repeatPassword: Md5.hashStr(this.user.repeatPassword)
+      }
+    })
       .subscribe(
         res => {
           if (res.json().success == true) {
             const newUrl = res.json().toUrl;
             window.location.href = newUrl;
           } else {
-            alert('failed sign up');
+            this.signupFaild = true;
           }
-        }
+        },
+        err => this.signupFaild = true
       );
   }
 

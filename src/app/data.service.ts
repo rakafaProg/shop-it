@@ -6,17 +6,21 @@ import { Http } from '@angular/http';
 })
 export class DataService {
 
-  apiUrl = 'http://localhost:8080/api/';
+  apiUrl = 'http://localhost:8080/';
   //apiUrl = '/api/';
 
   constructor(private http: Http) { }
 
   getCities() {
-    return this.http.get(this.apiUrl + 'cities');
+    return this.http.get(this.apiUrl + 'api/cities');
   }
 
   signUp(user) {
-    return this.http.post('http://localhost:8080/signup', user);
+    return this.http.post(this.apiUrl + 'signup', user);
+  }
+
+  login(user) {
+    return this.http.post(this.apiUrl + 'login', user);
   }
 
 }
