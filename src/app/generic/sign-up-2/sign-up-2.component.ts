@@ -1,5 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { Md5 } from 'ts-md5/dist/md5';
 import { DataService } from '../../data.service';
+
 declare var $: any;
 
 @Component({
@@ -51,6 +53,9 @@ export class SignUp2Component implements OnInit {
       this.invalid = true;
       return;
     }
+
+    this.user.password = Md5.hashStr(this.user.password);
+    this.user.repeatPassword = Md5.hashStr(this.user.repeatPassword);
     this.dataService.signUp({ user: this.user })
       .subscribe(
         res => {

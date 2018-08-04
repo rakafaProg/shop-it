@@ -23,5 +23,30 @@ exports.getQuery = (query, callback) => {
         } else {
             callback(rows);
         }
-    })
+    });
+}
+
+exports.insertQuery = (table, textFields, numberFields, callback) => {
+
+    let query =
+        `INSERT INTO ${table}
+            (${textFields && Object.keys(textFields).join(',')} 
+            ${(numberFields && textFields) && ','} 
+            ${numberFields && Object.keys(numberFields).join(',')})
+        VALUES(${textFields && "'" + Object.values(textFields).join("','") + "'"} 
+            ${(numberFields && textFields) && ','}
+            ${numberFields && Object.values(numberFields).join(",")} )
+        `;
+
+    console.log('using insert query');
+    console.log(query);
+
+    con.query(query, (err, data) => {
+        if (err || !data.affectedRows) {
+            console.log(err);
+            callback(null, 'Err: could not save your data');
+        } else {
+            callback({ success: true, insertedId: data.insertedId });
+        }
+    });
 }

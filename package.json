@@ -27,6 +27,7 @@
     "mysql": "^2.16.0",
     "rxjs": "^6.0.0",
     "semantic-ui": "^2.3.3",
+    "ts-md5": "^1.2.4",
     "zone.js": "~0.8.26"
   },
   "devDependencies": {
