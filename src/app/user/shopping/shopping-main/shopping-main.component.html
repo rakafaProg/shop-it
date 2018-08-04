@@ -1,9 +1,10 @@
-<cart></cart>
-<div (click)=sideBarToggle()>
-  Toggle side bar
+<div class="ui equal width grid main">
+  <div class="column">
+    <div class="ui equal width grid">
+      <categories-header></categories-header>
+      <product-list-view></product-list-view>
+    </div>
+  </div>
+
+  <cart></cart>
 </div>
-
-
-  <!-- Site content !-->
-  <categories-header></categories-header>
-  <product-list-view></product-list-view>

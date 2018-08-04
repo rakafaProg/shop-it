@@ -1,14 +1,6 @@
-<div class="ui right vertical inverted sidebar labeled icon menu">
-  <a class="item">
-    <i class="home icon"></i>
-    Home
-  </a>
-  <a class="item">
-    <i class="block layout icon"></i>
-    Topics
-  </a>
-  <a class="item">
-    <i class="smile icon"></i>
-    Friends
-  </a>
+<div class="one wide column">
+  <i class="shopping cart icon" (click)=toggleVisible()></i>
+</div>
+<div *ngIf="cartVisible" class="ui segment orange four wide column">
+  Cart is not empty lol
 </div>

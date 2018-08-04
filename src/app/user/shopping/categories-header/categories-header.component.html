@@ -1,9 +1,5 @@
-<div class="ui top attached tabular menu main">
-
-  <a *ngFor="let c of categories" class="item" routerLink="/happ/shopping/{{c.code}}">
+<div class="ui secondary vertical pointing menu column">
+  <a *ngFor="let c of categories" class="item active" routerLink="/happ/shopping/{{c.code}}">
     {{c.text}}
   </a>
-
-
-
 </div>

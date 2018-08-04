@@ -7,9 +7,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CartComponent implements OnInit {
 
+  cartVisible = true;
   constructor() { }
 
   ngOnInit() {
+  }
+
+  toggleVisible() {
+    this.cartVisible = !this.cartVisible;
   }
 
 }
