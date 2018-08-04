@@ -16,34 +16,92 @@
         </a>
       </p>
       <div *ngIf="state==1">
-        <div class="ui left icon fluid input">
-          <i class="user icon"></i>
-          <input type="text" name="username" placeholder="שם משתמש">
-        </div>
-        <div class="ui left icon fluid input">
+        <div class="ui left icon fluid field input" 
+          [ngClass]="{'error': (userId.invalid || !validateID()) && (userId.dirty || userId.touched)}"
+        >
           <i class="id badge icon"></i>
-          <input type="text" name="id" placeholder="מספר זהות">
+          <input type="text" 
+          name="id" 
+          placeholder="מספר זהות" 
+          required 
+          #userId="ngModel" 
+          [(ngModel)]=user.id
+          (input)="invalid = false">
         </div>
-        <div class="ui left icon fluid input">
+
+        <div class="ui left icon fluid field input"
+          [ngClass]="{'error': (emailAddress.invalid || !validateEmail()) && (emailAddress.dirty || emailAddress.touched)}"
+        >
           <i class="envelope icon"></i>
-          <input type="email" name="email" placeholder="כתובת מייל">
+          <input type="text" 
+          placeholder="כתובת מייל" 
+          required
+          #emailAddress="ngModel"
+          [(ngModel)]=user.email
+          (input)="invalid = false">
         </div>
-        <div class="ui left icon fluid input">
+
+        <div class="ui left icon fluid field input"
+        [ngClass]="{'error':phone.invalid && (phone.dirty || phone.touched)}"
+        >
           <i class="phone icon"></i>
-          <input type="text" name="phone" placeholder="מספר טלפון">
+          <input type="tel" 
+          name="phone" 
+          minlength="11"
+          placeholder="מספר טלפון" 
+          [(ngModel)]=user.phone
+          required
+          #phone="ngModel"
+          (input)="addDashes()"
+          >
         </div>
-        <div class="ui left icon fluid input">
+        <div class="ui left icon fluid field input"
+        [ngClass]="{'error':password.invalid && (password.dirty || password.touched)}"
+        >
           <i class="lock icon"></i>
-          <input type="password" name="passowrd" placeholder="סיסמה">
+          <input type="password" 
+          name="passowrd" 
+          placeholder="סיסמה" 
+          required
+          minlength="8"
+          #password="ngModel"
+          [(ngModel)]=user.password
+          (input)="invalid = false"
+          >
         </div>
-        <div class="ui left icon fluid input">
+        <div class="ui left icon fluid field input"
+        [ngClass]="{'error':(repeatPasword.invalid || !validateRepeatPassword()) && (repeatPasword.dirty || repeatPasword.touched)}"
+        >
           <i class="lock open icon"></i>
-          <input type="password" name="repeatpassowrd" placeholder="אמת סיסמה">
+          <input type="password" 
+          name="repeatpassowrd" 
+          placeholder="אמת סיסמה" 
+          required
+          minlength="8"
+          #repeatPasword="ngModel"
+          [(ngModel)]=user.repeatPassword
+          (input)="invalid = false">
+        </div>
+        <div class="ui error message" [ngClass]="{'visible': invalid}">
+          <div class="header">פרטי הרשמה חסרים:</div>
+          <ul class="list">
+            <li *ngIf="userId.errors">נא למלא מספר זהות</li>
+            <li *ngIf="!userId.errors && !validateID()">מספר הזהות שהוכנס אינו תקין</li>
+            <li *ngIf="emailAddress.errors">נא למלא כתובת אימייל</li>
+            <li *ngIf="!emailAddress.errors && !validateEmail()">כתובת המייל שהוכנסה אינה תקינה</li>
+            <li *ngIf="phone.errors && phone.errors.required">נא למלא מספר טלפון</li>
+            <li *ngIf="phone.errors && phone.errors.minlength">מספר טלפון צריך להכיל לפחות 9 ספרות</li>
+            <li *ngIf="password.errors && password.errors.required">נא למלא סיסמה</li>
+            <li *ngIf="password.errors && password.errors.minlength">הסיסמה חייבת להכיל לפחות 8 תווים</li>
+            <li *ngIf="!password.errors && repeatPasword.errors && repeatPasword.errors.required">נא לאמת סיסמה</li>
+            <li *ngIf="!password.errors && !validateRepeatPassword()">הסיסמאות חייבות להיות זהות</li>
+          </ul>
         </div>
         <button class="ui fluid larg orange submit button" (click)=nextFase()>המשך</button>
       </div>
 
-      <sign-up-2 *ngIf="state==2"></sign-up-2>
+
+      <sign-up-2 *ngIf="state==2" [user]=user></sign-up-2>
     </div>
   </div>
 </div>

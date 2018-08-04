@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { DataService } from '../../data.service';
 declare var $: any;
 
 @Component({
@@ -7,45 +8,68 @@ declare var $: any;
   styleUrls: ['./sign-up-2.component.css']
 })
 export class SignUp2Component implements OnInit {
+  @Input() user: any;
+  cities: any = [];
+  invalid = false;
 
-  constructor() { }
+  constructor(private dataService: DataService) { }
+
 
   ngOnInit() {
-    $(document).ready(() => {
+    console.log('sign up 2');
+    console.log(this.user);
 
+    this.dataService.getCities().subscribe(
+      cities => {
+        this.cities = cities.json();
+        this.setCitiesToDropdown();
+      }
+    );
+
+  }
+
+  setCitiesToDropdown() {
+    $(document).ready(() => {
       $('.ui.dropdown')
         .dropdown({
-          values: [
-            {
-              name: 'ירושלים',
-              value: '3000'
-            },
-            {
-              name: 'תל אביב',
-              value: '4000',
-            },
-            {
-              name: 'חיפה',
-              value: '4000',
-            },
-            {
-              name: 'באר שבע',
-              value: '4000',
-            },
-            {
-              name: 'ראשון לציון',
-              value: '4000',
-            },
-            {
-              name: 'אילת',
-              value: '4000',
-            },
-          ],
-          placeholder: 'עיר מגורים'
-        })
-        ;
-
+          values: this.cities,
+          placeholder: 'עיר מגורים',
+          action: 'activate',
+          onChange: (text, value) => {
+            this.user.city_id = text;
+            this.invalid = false;
+          }
+        });
     });
+  }
+
+  finishSignup() {
+    // this.user.city=$('.ui.dropdown .text').val();
+    console.log('sending user to server');
+    console.log(this.user);
+    if (!this.validateForm()) {
+      this.invalid = true;
+      return;
+    }
+    this.dataService.signUp({ user: this.user })
+      .subscribe(
+        res => {
+          if (res.json().success == true) {
+            const newUrl = res.json().toUrl;
+            window.location.href = newUrl;
+          } else {
+            alert('failed sign up');
+          }
+        }
+      );
+  }
+
+  validateForm() {
+    const { first_name, last_name, city_id, street_name, house_number } = this.user;
+    if (!first_name || !last_name || !city_id || !street_name || !house_number) {
+      return false;
+    }
+    return true;
   }
 
 }

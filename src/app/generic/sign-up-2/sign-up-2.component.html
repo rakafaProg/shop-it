@@ -1,35 +1,68 @@
-<div class="ui left icon fluid input">
+<div class="ui left icon fluid field input" 
+    [ngClass]="{'error': firstName.invalid && (firstName.dirty || firstName.touched)}"
+>
   <i class="user icon"></i>
-  <input type="text" name="firstName" placeholder="שם פרטי">
-</div>
-<div class="ui left icon fluid input">
-  <i class="user outline icon"></i>
-  <input type="text" name="familyName" placeholder="שם משפחה">
+  <input type="text" 
+    placeholder="שם פרטי" 
+    [(ngModel)]="user.first_name" 
+    required 
+    #firstName="ngModel" 
+    (input)="invalid = false">
 </div>
 
-<!-- <div class="ui left icon fluid field input">
-    <i class="address card icon"></i>
-    <select class="ui dropdwon">
-      <option value="" disabled>עיר מגורים</option>
-      <option value="3000">ירושלים</option>
-    </select>
-  
-</div> -->
+<div class="ui left icon fluid field input"
+  [ngClass]="{'error': lastName.invalid && (lastName.dirty || lastName.touched)}"
+>
+  <i class="user outline icon"></i>
+  <input type="text" 
+    placeholder="שם משפחה" 
+    [(ngModel)]=user.last_name 
+    required
+    #lastName="ngModel"
+    (input)="invalid = false">
+</div>
+
 <div class="ui left icon fluid field input">
   <i class="address card icon"></i>
-  <div class="ui fluid dropdown">
+  <div class="ui fluid search dropdown">
     <div class="text"></div>
     <i class="dropdown icon"></i>
   </div>
 </div>
 
-<div class="ui left icon fluid input">
+<div class="ui left icon fluid field input"
+  [ngClass]="{'error': street.invalid && (street.dirty || street.touched)}"
+>
   <i class="building icon"></i>
-  <input type="text" name="street" placeholder="רחוב">
-</div>
-<div class="ui left icon fluid input">
-  <i class="building outline icon"></i>
-  <input type="text" name="houseNumber" placeholder="מספר בית">
+  <input type="text" 
+    placeholder="רחוב" 
+    [(ngModel)]=user.street_name 
+    required
+    #street="ngModel"
+    (input)="invalid = false">
 </div>
 
-<button class="ui fluid larg orange submit button" routerLink="/happ">הירשם לאתר</button>
+<div class="ui left icon fluid input"
+  [ngClass]="{'error': house.invalid && (house.dirty || house.touched)}"
+>
+  <i class="building outline icon"></i>
+  <input type="text" 
+    placeholder="מספר בית" 
+    [(ngModel)]=user.house_number 
+    required
+    #house="ngModel"
+    (input)="invalid = false">
+</div>
+
+<div class="ui error message" [ngClass]="{'visible': invalid}">
+  <div class="header">פרטי הרשמה חסרים:</div>
+  <ul class="list">
+    <li *ngIf="firstName.errors">נא למלא שם פרטי</li>
+    <li *ngIf="lastName.errors">נא למלא שם משפחה</li>
+    <li *ngIf="!user.city_id">נא לבחור עיר מגורים</li>
+    <li *ngIf="street.errors">נא למלא שם רחוב</li>
+    <li *ngIf="house.errors">נא למלא מספר בית</li>
+  </ul>
+</div>
+
+<button class="ui fluid larg orange submit button" (click)=finishSignup()>הירשם לאתר</button>
