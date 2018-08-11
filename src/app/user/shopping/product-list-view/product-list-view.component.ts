@@ -15,17 +15,14 @@ export class ProductListViewComponent implements OnInit {
 
   currentCategory = "";
   selectedProduct = {};
-  products: any = [];
+  products: any = this.dataService.products;
 
   ngOnInit() {
     this.route.params
       .subscribe(
         (params: Params) => {
           this.currentCategory = params['category'];
-          this.dataService.getProductByCategory(this.currentCategory)
-            .subscribe(
-              p => this.products = p.json()
-            )
+          this.dataService.getProductByCategory(this.currentCategory);
         }
       )
   }

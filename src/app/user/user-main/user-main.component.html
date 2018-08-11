@@ -12,7 +12,7 @@
     <i class="shopping basket icon"></i>
     מוצרים
   </a>
-  <a class="item ui header orange" routerLink="./place-order">
+  <a *ngIf="cart.data.length" class="item ui header orange" routerLink="./place-order">
     <i class="credit card icon"></i>
     בצע הזמנה
   </a>

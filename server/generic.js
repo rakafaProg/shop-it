@@ -31,6 +31,29 @@ router.get('/api/products/category/:category', (req, res) => {
     )
 });
 
+router.get('/api/products/search/:text', (req, res) => {
+    const text = req.params.text;
+    db.getQuery(
+        `SELECT DISTINCT
+        p.code, p.name, p.details, p.imageUrl, p.price
+        FROM 
+        products p INNER JOIN categoriestoproducts cp ` +
+        ' ON `code`=`product` INNER JOIN categories c ON c.id = cp.category ' +
+        `WHERE 
+            p.name LIKE '%${text}%' OR
+            p.details LIKE '%${text}%' OR
+            c.name LIKE '%${text}%'
+        `,
+        (product, err) => {
+            if (err) {
+                res.status(500).send(err);
+            } else {
+                res.send(product);
+            }
+        }
+    )
+});
+
 // ===============================
 //  Cart API
 // ===============================

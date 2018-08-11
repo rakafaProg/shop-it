@@ -14,6 +14,7 @@ export class CategoriesHeaderComponent implements OnInit {
 
   currentCategoy = 1;
   categories: any = [];
+  search: any = this.dataService.search;
 
   ngOnInit() {
 
@@ -40,6 +41,10 @@ export class CategoriesHeaderComponent implements OnInit {
       $(`.secondary.vertical.pointing .item`).removeClass('active');
       $(`.secondary.vertical.pointing .item[href$='/${this.currentCategoy}']`).addClass('active');
     });
+  }
+
+  getProducts() {
+    this.dataService.getProductByCategory(this.currentCategoy);
   }
 
 }

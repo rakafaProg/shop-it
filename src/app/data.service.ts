@@ -10,6 +10,8 @@ export class DataService {
   //apiUrl = '/api/';
 
   cart: any = { data: [] };
+  search: any = { text: '' };
+  products: any = { data: [] };
 
   constructor(private http: Http) { }
 
@@ -35,7 +37,18 @@ export class DataService {
   }
 
   getProductByCategory(category) {
-    return this.http.get(this.apiUrl + 'api/products/category/' + category);
+    let url = this.apiUrl + 'api/products/category/' + category;
+    if (this.search.text) {
+      url = this.apiUrl + 'api/products/search/' + this.search.text;
+    }
+
+    this.http.get(url)
+      .subscribe(
+        data => {
+          this.products.data = data.json()
+        }
+      );
+
   }
 
   getCart() {

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { DataService } from '../../data.service';
 
 @Component({
   selector: 'user-main',
@@ -9,9 +10,11 @@ export class UserMainComponent implements OnInit {
 
   userName = 'שם משתמש';
 
-  constructor() { }
+  constructor(private dataService: DataService) { }
 
+  cart: any = this.dataService.cart;
   ngOnInit() {
+
   }
 
 }

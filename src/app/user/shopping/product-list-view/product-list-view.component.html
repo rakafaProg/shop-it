@@ -1,5 +1,5 @@
 <div class="ui cards">
-    <a *ngFor="let p of products" class="ui card" (click)="openModal(p)">
+    <a *ngFor="let p of products.data" class="ui card" (click)="openModal(p)">
         <div class="content">
             <h3 class="ui header orange">{{p.name}}</h3>
         </div>
