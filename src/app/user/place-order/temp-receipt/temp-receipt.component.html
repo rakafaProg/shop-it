@@ -1,3 +1,94 @@
-<p>
-  temp-receipt works!
-</p>
+<table class="ui selectable table">
+  <thead>
+    <tr class="ui header">
+      <th>
+        <i class="gift icon"></i>
+        פריט
+      </th>
+      <th>
+        <i class="barcode icon"></i>
+        קוד
+      </th>
+      <th>
+        <i class="tags icon"></i>
+        מחיר
+      </th>
+      <th>
+        <i class="shopping cart icon"></i>
+        כמות
+      </th>
+      <th>
+        <i class="credit card icon"></i>
+        סך הכל
+      </th>
+
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let item of cart.data">
+      <td>
+        <h4 class="ui image header">
+          <img src="{{item.imageUrl}}" class="ui medium rounded image">
+          <div class="content">
+            {{item.name}}
+            <div class="sub header">
+              {{item.details}}
+            </div>
+          </div>
+        </h4>
+      </td>
+      <td>
+        {{item.code}}
+      </td>
+      <td>
+        {{item.price | number:'1.2'}}
+        <i class="shekel sign small icon"></i>
+      </td>
+      <td>
+        <div *ngIf="editedItem!=item" class="pointer" title="לחץ לשינוי כמות" (click)="editedItem=item; editedAmount=item.amount">{{item.amount}}</div>
+        <div *ngIf="editedItem==item" class="ui left action input">
+          <input type="number" [(ngModel)]="editedAmount" min="1" style="width: 80px">
+          <div class="ui icon buttons">
+            <button class="ui button" (click)="updateAmount()">
+              <i class="check green icon"></i>
+            </button>
+            <button class="ui button" (click)="editedItem=null">
+              <i class="close red icon"></i>
+            </button>
+          </div>
+        </div>
+      </td>
+      <td>{{item.total | number:'1.2'}}
+        <i class="shekel sign small icon"></i>
+      </td>
+
+    </tr>
+  </tbody>
+  <tfoot>
+    <tr >
+      <th class="light-orange-bg" colspan="5"></th>
+    </tr>
+    <tr class="ui header">
+      <th colspan="3" class="right aligned">
+        סך הכל בעגלה:
+      </th>
+      <th>{{cartCount()}} פריטים</th>
+      <th>{{cartTotal() | number: '1.2'}}
+        <i class="shekel sign small icon"></i>
+      </th>
+    </tr>
+  </tfoot>
+</table>
+
+
+<div class="ui fluid buttons">
+  <button class="ui positive button" routerLink='./shipping'>
+    <i class="credit card icon"></i>
+    המשך לתשלום
+  </button>
+  <div class="or" data-text="או"></div>
+  <button class="ui orange button" routerLink='/happ/shopping/'>
+    <i class="shopping basket icon"></i>
+    המשך בקניה
+  </button>
+</div>

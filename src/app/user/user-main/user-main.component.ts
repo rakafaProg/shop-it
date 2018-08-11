@@ -14,7 +14,7 @@ export class UserMainComponent implements OnInit {
 
   cart: any = this.dataService.cart;
   ngOnInit() {
-
+    this.dataService.getCart();
   }
 
 }

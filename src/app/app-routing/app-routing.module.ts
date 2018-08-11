@@ -15,6 +15,10 @@ import { AdminMainComponent } from '../admin/admin-main/admin-main.component';
 import { AdminViewComponent } from '../admin/admin-view/admin-view.component';
 import { CreateProductComponent } from '../admin/create-product/create-product.component';
 import { ViewUserDetailsComponent } from '../user/profile/view-user-details/view-user-details.component';
+import { TempReceiptComponent } from '../user/place-order/temp-receipt/temp-receipt.component';
+import { PrintReceiptComponent } from '../user/place-order/print-receipt/print-receipt.component';
+import { GetPaymentComponent } from '../user/place-order/get-payment/get-payment.component';
+import { GetShippingComponent } from '../user/place-order/get-shipping/get-shipping.component';
 
 const routes: Routes = [
   {
@@ -63,7 +67,25 @@ const routes: Routes = [
       },
       {
         path: 'place-order',
-        component: PlaceOrderMainComponent
+        component: PlaceOrderMainComponent,
+        children: [
+          {
+            path: '',
+            component: TempReceiptComponent
+          },
+          {
+            path: 'payment',
+            component: GetPaymentComponent
+          },
+          {
+            path: 'shipping',
+            component: GetShippingComponent
+          },
+          {
+            path: 'print-recipt',
+            component: PrintReceiptComponent
+          }
+        ]
       },
       {
         path: 'profile',

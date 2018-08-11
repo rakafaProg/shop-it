@@ -1,3 +1,23 @@
-<p>
-  wellcome works!
-</p>
+<div class="ui segment orange main">
+  <img src="assets/coloredLogo.png" class="ui centered image">
+  <div class="ui inverted section divider"></div>
+
+
+  <div *ngIf="userDetails.status==1">
+
+  </div>
+
+  <div *ngIf="userDetails.status==2">
+    <h2 class="ui header orange">
+      <i class="comment alternate icon"></i>
+      שלום {{userDetails.first_name}},
+      <br> טוב לראותך שוב איתנו!
+    </h2>
+
+    <br><br><br><br><br><br><br><br><br><br>
+  </div>
+</div>
+<br><br><br><br><br><br><br><br><br><br>
+
+
+

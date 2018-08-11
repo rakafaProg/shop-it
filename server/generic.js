@@ -59,7 +59,7 @@ router.get('/api/products/search/:text', (req, res) => {
 // ===============================
 
 function getCart(res) {
-    const getCartQuery = "SELECT `imageUrl`, p.`name`, `amount`, `price`, `code`, " +
+    const getCartQuery = "SELECT `imageUrl`, p.`name`, `amount`, `price`, `code`, `details` ,  " +
         "`amount` * `price` AS `total` " +
         "FROM `carts` c " +
         "INNER JOIN `products` p ON " +

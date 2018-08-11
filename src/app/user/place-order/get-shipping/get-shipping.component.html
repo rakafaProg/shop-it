@@ -1,0 +1,34 @@
+<div class="ui form">
+  <div class="ui stacked segment orange">
+    <div class="ui left icon fluid field input" [ngClass]="{'error': firstName.invalid && (firstName.dirty || firstName.touched)}">
+      <i class="user icon"></i>
+      <input type="text" placeholder="שם פרטי" [(ngModel)]="user.first_name" required #firstName="ngModel" (input)="invalid = false; signupFaild = false">
+    </div>
+
+    <div class="ui left icon fluid field input" [ngClass]="{'error': lastName.invalid && (lastName.dirty || lastName.touched)}">
+      <i class="user outline icon"></i>
+      <input type="text" placeholder="שם משפחה" [(ngModel)]=user.last_name required #lastName="ngModel" (input)="invalid = false; signupFaild = false">
+    </div>
+
+    <div class="ui left icon fluid field input">
+      <i class="address card icon"></i>
+      <div class="ui fluid search dropdown">
+        <div class="text"></div>
+        <i class="dropdown icon"></i>
+      </div>
+    </div>
+
+    <div class="ui left icon fluid field input" [ngClass]="{'error': street.invalid && (street.dirty || street.touched)}">
+      <i class="building icon"></i>
+      <input type="text" placeholder="רחוב" [(ngModel)]=user.street_name required #street="ngModel" (input)="invalid = false; signupFaild = false">
+    </div>
+
+    <div class="ui left icon fluid field input" [ngClass]="{'error': house.invalid && (house.dirty || house.touched)}">
+      <i class="building outline icon"></i>
+      <input type="text" placeholder="מספר בית" [(ngModel)]=user.house_number required #house="ngModel" (input)="invalid = false; signupFaild = false">
+    </div>
+  </div>
+</div>
+<a class="ui button positive" routerLink='/happ/place-order/payment'>
+  next
+</a>

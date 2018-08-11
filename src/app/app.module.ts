@@ -18,7 +18,6 @@ import { ProductListViewComponent } from './user/shopping/product-list-view/prod
 import { CategoriesHeaderComponent } from './user/shopping/categories-header/categories-header.component';
 import { SingleProductViewComponent } from './user/shopping/single-product-view/single-product-view.component';
 import { TempReceiptComponent } from './user/place-order/temp-receipt/temp-receipt.component';
-import { GetShippingAndPaymentComponent } from './user/place-order/get-shipping-and-payment/get-shipping-and-payment.component';
 import { PrintReceiptComponent } from './user/place-order/print-receipt/print-receipt.component';
 import { EditUserDetailsComponent } from './user/profile/edit-user-details/edit-user-details.component';
 import { ViewPastOrdersComponent } from './user/profile/view-past-orders/view-past-orders.component';
@@ -30,6 +29,8 @@ import { PlaceOrderMainComponent } from './user/place-order/place-order-main/pla
 import { ProfileMainComponent } from './user/profile/profile-main/profile-main.component';
 import { ViewUserDetailsComponent } from './user/profile/view-user-details/view-user-details.component';
 import { Nl2brPipe } from './nl2br.pipe';
+import { GetShippingComponent } from './user/place-order/get-shipping/get-shipping.component';
+import { GetPaymentComponent } from './user/place-order/get-payment/get-payment.component';
 
 @NgModule({
   declarations: [
@@ -47,7 +48,6 @@ import { Nl2brPipe } from './nl2br.pipe';
     CategoriesHeaderComponent,
     SingleProductViewComponent,
     TempReceiptComponent,
-    GetShippingAndPaymentComponent,
     PrintReceiptComponent,
     EditUserDetailsComponent,
     ViewPastOrdersComponent,
@@ -58,7 +58,9 @@ import { Nl2brPipe } from './nl2br.pipe';
     PlaceOrderMainComponent,
     ProfileMainComponent,
     ViewUserDetailsComponent,
-    Nl2brPipe
+    Nl2brPipe,
+    GetShippingComponent,
+    GetPaymentComponent
   ],
   imports: [
     BrowserModule,

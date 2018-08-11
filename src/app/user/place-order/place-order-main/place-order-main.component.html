@@ -1,4 +1,36 @@
-<p>
-  place-order-main works!
-</p>
-<router-outlet></router-outlet>
+<div class="main">
+  <div class="ui four top attached steps">
+    <div class="step cart">
+      <i class="shopping basket icon"></i>
+      <div class="content">
+        <div class="title">עגלת קניות</div>
+        <div class="description">עיין ברשימת המוצרים שבחרת</div>
+      </div>
+    </div>
+    <div class="step shipping">
+      <i class="truck icon"></i>
+      <div class="content">
+        <div class="title">משלוח</div>
+        <div class="description">בחר אופציית משלוח</div>
+      </div>
+    </div>
+    <div class="step payment">
+      <i class="payment icon"></i>
+      <div class="content">
+        <div class="title">תשלום</div>
+        <div class="description">הכנס פרטי תשלום</div>
+      </div>
+    </div>
+    <div class="step finish">
+      <i class="info icon"></i>
+      <div class="content">
+        <div class="title">אשר הזמנה</div>
+        <div class="description">בדוק פרטים, ואשר את הזמנתך</div>
+      </div>
+    </div>
+  </div>
+  <div class="ui attached segment spacy light-orange-bg">
+
+    <router-outlet></router-outlet>
+  </div>
+</div>

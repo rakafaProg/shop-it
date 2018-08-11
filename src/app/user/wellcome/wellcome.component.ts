@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { DataService } from '../../data.service';
 
 @Component({
   selector: 'wellcome',
@@ -7,9 +8,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class WellcomeComponent implements OnInit {
 
-  constructor() { }
+  constructor(private dataService: DataService) { }
+  cart: any = this.dataService.cart;
+
+  userDetails: any = {
+    first_name: 'רקפת', 
+    status: 2
+  }
 
   ngOnInit() {
+    this.dataService.getCart();
   }
+
 
 }
