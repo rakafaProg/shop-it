@@ -18,7 +18,6 @@ con.connect(err => {
 exports.getQuery = (query, callback) => {
     con.query(query, (err, rows) => {
         if (err) {
-            console.log(err);
             callback(null, 'Err: could not get your data');
         } else {
             callback(rows);
@@ -39,11 +38,9 @@ exports.insertQuery = (table, textFields, numberFields, callback) => {
         `;
 
     console.log('using insert query');
-    console.log(query);
 
     con.query(query, (err, data) => {
         if (err || !data.affectedRows) {
-            console.log(err);
             callback(null, 'Err: could not save your data');
         } else {
             callback({ success: true, insertedId: data.insertedId });

@@ -43,3 +43,7 @@ p {
     max-width: 600px;
     margin: 50px auto !important;
 }
+
+.pointer {
+    cursor: pointer;
+}

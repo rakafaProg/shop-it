@@ -1,6 +1,97 @@
 <div class="one wide column">
-  <i class="shopping cart icon" (click)=toggleVisible()></i>
+  <button class="ui circular inverted green button pointer" (click)=toggleVisible()>
+    <i class="shopping cart icon"></i>
+    <span *ngIf="!cartVisible">הצג</span>
+    <span *ngIf="cartVisible">הסתר</span> עגלה
+  </button>
+  <!-- <i class="shopping cart icon" (click)=toggleVisible()></i> -->
 </div>
-<div *ngIf="cartVisible" class="ui segment orange four wide column">
-  Cart is not empty loliby
+<br>
+
+
+<div *ngIf="cartVisible" class="four wide column cart">
+  <div *ngIf="cart.data.length">
+    <table class="ui selectable  celled table">
+      <thead>
+        <tr>
+          <th>פריט</th>
+          <th>כמות</th>
+          <th>סך הכל</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tr *ngFor="let item of cart.data">
+        <td>
+          <h4 class="ui image header">
+            <img src="{{item.imageUrl}}" class="ui small rounded image">
+            <div class="content">
+              {{item.name}}
+              <div class="sub header">{{item.price | number:'1.2'}}
+                <i class="shekel sign small icon"></i>
+              </div>
+            </div>
+          </h4>
+        </td>
+        <td>
+          <div *ngIf="editedItem!=item" class="pointer" title="לחץ לשינוי כמות" (click)="editedItem=item; editedAmount=item.amount">{{item.amount}}</div>
+          <div *ngIf="editedItem==item" class="ui left action input">
+            <input type="number" [(ngModel)]="editedAmount" min="1" style="width: 80px">
+            <div class="ui icon buttons">
+              <button class="ui button" (click)="updateAmount()">
+                <i class="check green icon"></i>
+              </button>
+              <button class="ui button" (click)="editedItem=null">
+                <i class="close red icon"></i>
+              </button>
+            </div>
+          </div>
+        </td>
+        <td>{{item.total | number:'1.2'}}
+          <i class="shekel sign small icon"></i>
+        </td>
+        <td>
+          <a class="pointer" (click)="delItem(item)">
+            <i class="trash alternate red icon"></i>
+          </a>
+        </td>
+      </tr>
+    </table>
+
+    <div class="ui piled segment">
+      <table class="ui orange table">
+        <tr class="ui header orange">
+          <td>פריטים בעגלה</td>
+          <td>{{cartCount()}}</td>
+        </tr>
+        <tr class="ui header orange">
+          <td>סכום ביניים</td>
+          <td>{{cartTotal() | number: '1.2'}}
+            <i class="shekel sign small icon"></i>
+          </td>
+        </tr>
+      </table>
+
+
+      <div class="ui fluid buttons">
+        <button class="ui positive button" routerLink="/happ/place-order">
+          <i class="credit card icon"></i>
+          בצע הזמנה
+        </button>
+        <div class="or" data-text="או"></div>
+        <button class="ui button" (click)=deleteCart()>
+          <i class="trash alternate icon"></i>
+          רוקן עגלה
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="!cart.data.length">
+    אין לך פריטים בעגלה
+    <br>
+    התחל בקניות כדי לראות כאן משו
+    </div>
+
+
+
 </div>

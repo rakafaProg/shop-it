@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { DataService } from '../../../data.service';
 
 @Component({
   selector: 'single-product-view',
@@ -8,13 +9,13 @@ import { Component, OnInit, Input } from '@angular/core';
 export class SingleProductViewComponent implements OnInit {
   @Input() product: any;
   amount = 1;
-  constructor() { }
+  constructor(private dataService: DataService) { }
 
   ngOnInit() {
   }
 
   addToCart() {
-    alert(`adding ${this.amount} ${this.product.name} to your cart`);
+    this.dataService.addCartItem(this.product.code, this.amount);
     this.amount = 1;
   }
 

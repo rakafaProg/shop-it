@@ -5,3 +5,7 @@
     max-width: 200px;
     display: block;
 }
+
+.card {
+    max-width: 220px;
+}

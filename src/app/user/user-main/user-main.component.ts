@@ -7,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UserMainComponent implements OnInit {
 
-  userName = 'רמבו החמוד';
+  userName = 'שם משתמש';
 
   constructor() { }
 
