@@ -15,9 +15,6 @@ export class DataService {
     return this.http.get(this.apiUrl + 'api/cities');
   }
 
-  getCategories() {
-    return this.http.get(this.apiUrl + 'api/categories');
-  }
 
   signUp(user) {
     return this.http.post(this.apiUrl + 'signup', user);
@@ -31,6 +28,12 @@ export class DataService {
     return this.http.post(this.apiUrl + 'api/newProduct', product);
   }
 
+  getCategories() {
+    return this.http.get(this.apiUrl + 'api/categories');
+  }
 
+  getProductByCategory(category) {
+    return this.http.get(this.apiUrl + 'api/products/category/' + category);
+  }
 
 }

@@ -1,0 +1,7 @@
+.twolines {
+    height: 50px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 200px;
+    display: block;
+}

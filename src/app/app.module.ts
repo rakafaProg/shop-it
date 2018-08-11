@@ -29,6 +29,7 @@ import { ShoppingMainComponent } from './user/shopping/shopping-main/shopping-ma
 import { PlaceOrderMainComponent } from './user/place-order/place-order-main/place-order-main.component';
 import { ProfileMainComponent } from './user/profile/profile-main/profile-main.component';
 import { ViewUserDetailsComponent } from './user/profile/view-user-details/view-user-details.component';
+import { Nl2brPipe } from './nl2br.pipe';
 
 @NgModule({
   declarations: [
@@ -56,7 +57,8 @@ import { ViewUserDetailsComponent } from './user/profile/view-user-details/view-
     ShoppingMainComponent,
     PlaceOrderMainComponent,
     ProfileMainComponent,
-    ViewUserDetailsComponent
+    ViewUserDetailsComponent,
+    Nl2brPipe
   ],
   imports: [
     BrowserModule,

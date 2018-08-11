@@ -1,1 +1,40 @@
-<div class="column">content</div>
+<div class="ui cards">
+    <a *ngFor="let p of products" class="ui card" (click)="openModal(p)">
+        <div class="content">
+            <h3 class="ui header orange">{{p.name}}</h3>
+        </div>
+        <div class="image">
+            <img src="{{p.imageUrl}}">
+        </div>
+        <div class="extra content">
+            <div class="ui list">
+                <div class="item">
+                    <i class="help icon"></i>
+                    <div class="content">
+                        <div class="description twolines">
+                            {{p.details}}
+                        </div>
+                        ...
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="ui orange content">
+            <div class="right floated">
+                {{p.price | number : '1.2'}}
+                <i class="shekel sign icon"></i>
+            </div>
+            <div>
+                <i class="barcode icon"></i>
+                {{p.code}}
+            </div>
+            <h4 class="ui orange header center">
+                <i class="shopping basket icon"></i>
+                הוסף לעגלה
+            </h4>
+        </div>
+    </a>
+</div>
+
+<single-product-view [product]="selectedProduct"></single-product-view>

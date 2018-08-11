@@ -15,6 +15,20 @@ router.get('/api/categories', (req, res) => {
     });
 });
 
+router.get('/api/products/category/:category', (req, res) => {
+    const cat = req.params.category;
+    db.getQuery(
+        'SELECT * FROM `products` INNER JOIN `categoriestoproducts` ON `code`=`product` WHERE `category`=' + cat,
+        (product, err) => {
+            if (err) {
+                res.status(500).send(err);
+            } else {
+                res.send(product);
+            }
+        }
+    )
+});
+
 router.post('/api/newProduct', (req, res) => {
     console.log('Got new data for products');
     console.log(req.body);

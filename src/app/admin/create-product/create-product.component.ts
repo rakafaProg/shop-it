@@ -32,10 +32,12 @@ export class CreateProductComponent implements OnInit {
     this.checkedCategories = {};
     this.product = {};
     this.status = 0;
+    $(document).ready(() => {
+      $('.ui.checkbox').checkbox();
+    });
   }
 
   sendForm() {
-    alert('sending Form');
     this.status = 1;
     this.dataService.createProduct({ product: this.product, categories: this.checkedCategories })
       .subscribe(

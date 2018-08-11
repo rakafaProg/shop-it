@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 declare var $: any;
 
 @Component({
@@ -7,7 +7,6 @@ declare var $: any;
   styleUrls: ['./shopping-main.component.css']
 })
 export class ShoppingMainComponent implements OnInit {
-
   constructor() { }
 
   ngOnInit() {

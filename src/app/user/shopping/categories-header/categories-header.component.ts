@@ -18,21 +18,28 @@ export class CategoriesHeaderComponent implements OnInit {
   ngOnInit() {
 
     this.dataService.getCategories().subscribe(
-      categories => this.categories = categories.json()
+      categories => {
+        this.categories = categories.json();
+        this.updateCurrentCategoryView();
+      }
     );
 
     this.route.params
       .subscribe(
         (params: Params) => {
           this.currentCategoy = params['category'];
-          $(document).ready(() => {
-            $(`.secondary.vertical.pointing .item`).removeClass('active');
-            $(`.secondary.vertical.pointing .item[href$='/${this.currentCategoy}']`).addClass('active');
-          });
+          this.updateCurrentCategoryView();
           //console.log(params);
         }
       );
 
+  }
+
+  updateCurrentCategoryView() {
+    $(document).ready(() => {
+      $(`.secondary.vertical.pointing .item`).removeClass('active');
+      $(`.secondary.vertical.pointing .item[href$='/${this.currentCategoy}']`).addClass('active');
+    });
   }
 
 }
