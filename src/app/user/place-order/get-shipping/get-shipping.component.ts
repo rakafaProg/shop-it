@@ -63,7 +63,8 @@ export class GetShippingComponent implements OnInit {
       data => {
         let userData = data.json();
         this.userData = userData;
-      }
+      },
+      err => window.location.href = '/login'
     )
   }
 

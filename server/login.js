@@ -1,10 +1,13 @@
 const express = require('express');
 const db = require('./db');
+const jwt = require('jsonwebtoken');
+const cookieParser = require('cookie-parser');
 
 const router = express.Router();
+let userToken = {};
+let userId = '';
 
-module.exports = router;
-const userId = '200962439';
+module.exports = { router, userToken };
 
 router.get('/api/cities', (req, res) => {
     db.getQuery('SELECT * FROM cities ORDER BY name', (cities, err) => {
@@ -15,6 +18,18 @@ router.get('/api/cities', (req, res) => {
         }
     });
 });
+
+const createToken = id => {
+    return jwt.sign({ id }, 'aetbikauhgihnkjbnikasbugfui', {
+        expiresIn: 86400 // expires in 24 hours
+    });
+}
+
+const decodeToken = (token, callback) => {
+    jwt.verify(token, 'aetbikauhgihnkjbnikasbugfui', callback);
+}
+
+router.use(cookieParser());
 
 router.post('/signup', (req, res) => {
     console.log('user want to sign up');
@@ -28,6 +43,7 @@ router.post('/signup', (req, res) => {
             { city_id },
             (data, err) => {
                 if (!err && data.success) {
+                    res.cookie('tokenid', createToken(id), { maxAge: 86400 });
                     res.send({ success: true, toUrl: '/happ' });
                 } else {
                     res.status(500).send({ success: false, msg: 'User Creating Failed.' });
@@ -44,6 +60,7 @@ router.post('/login', (req, res) => {
         db.getQuery(`SELECT first_name FROM USERS WHERE id='${id}' AND password='${password}'`, (data, err) => {
             if (!err && data.length > 0) {
                 db.getQuery(`SELECT * FROM admins WHERE id='${id}'`, (data, err) => {
+                    res.cookie('tokenid', createToken(id), { maxAge: 86400 });
                     if (!err && data.length > 0)
                         res.status(200).send({ success: true, toUrl: '/admin' });
                     else
@@ -57,6 +74,51 @@ router.post('/login', (req, res) => {
         res.status(400).send({ success: false, msg: 'Invalid Data' });
     }
 });
+
+
+
+
+
+router.use((req, res, next) => {
+    userToken.id = '';
+    if (req.cookies.tokenid) {
+        decodeToken(req.cookies.tokenid, (err, decoded) => {
+            if (!err) {
+                userToken.id = decoded.id;
+                userId = userToken.id;
+            }
+        });
+    }
+    next();
+});
+
+// handle cli
+router.use((req, res, next) => {
+    //console.log(req.headers.origin);
+    if (req.headers.origin && req.headers.origin.includes('localhost:4200')) {
+        userToken.id = '123456782';
+        userId = userToken.id;
+    }
+    next();
+})
+
+router.use(['/happ', '/admin'], (req, res, next) => {
+    if (!userToken.id) {
+        res.redirect('/login');
+        return;
+    }
+    next();
+});
+
+router.use('/api', (req, res, next) => {
+    if (!userToken.id) {
+        res.status(401).send('User is not loged in');
+        return;
+    }
+    next();
+});
+
+
 
 router.get('/api/user', (req, res) => {
     db.getQuery(`SELECT * FROM users WHERE id="${userId}"`, (users, err) => {

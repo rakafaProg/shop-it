@@ -15,7 +15,7 @@ app.use(express.static(root));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(login);
+app.use(login.router);
 app.use(generic);
 app.use(imageUploading);
 

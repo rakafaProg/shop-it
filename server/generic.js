@@ -3,9 +3,17 @@ const db = require('./db');
 
 const router = express.Router();
 
-const userId = '123456782';
+const { userToken } = require('./login');
+
+let userId;
 
 module.exports = router;
+
+router.use((req, res, next) => {
+    userId = userToken.id;
+    next();
+});
+
 
 router.get('/api/categories', (req, res) => {
     db.getQuery('SELECT * FROM categories ORDER BY orderPriority', (categories, err) => {

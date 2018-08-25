@@ -50,7 +50,8 @@ export class DataService {
     this.http.get(url)
       .subscribe(
         data => {
-          this.products.data = data.json()
+          this.products.data = data.json(),
+          err => window.location.href = '/login'
         }
       );
 
@@ -59,35 +60,41 @@ export class DataService {
   getCart() {
     this.http.get(this.apiUrl + 'api/cart')
       .subscribe(
-        cart => this.cart.data = cart.json()
+        cart => this.cart.data = cart.json(),
+        err => window.location.href = '/login'
       );
   }
 
   updateCartItemAmount(code, amount) {
+    console.log('try updarte');
     this.http.put(this.apiUrl + 'api/cartItem', { code, amount })
       .subscribe(
-        cart => this.cart.data = cart.json()
+        cart => this.cart.data = cart.json(),
+        err => window.location.href = '/login'
       );
   }
 
   addCartItem(code, amount) {
     this.http.post(this.apiUrl + 'api/cartItem', { code, amount })
       .subscribe(
-        cart => this.cart.data = cart.json()
+        cart => this.cart.data = cart.json(),
+        err => window.location.href = '/login'
       );
   }
 
   deleteCartItem(code) {
     this.http.delete(this.apiUrl + 'api/cartItem/' + code)
       .subscribe(
-        cart => this.cart.data = cart.json()
+        cart => this.cart.data = cart.json(),
+        err => window.location.href = '/login'
       );
   }
 
   deleteCart() {
     this.http.delete(this.apiUrl + 'api/cart')
       .subscribe(
-        cart => this.cart.data = cart.json()
+        cart => this.cart.data = cart.json(),
+        err => window.location.href = '/login'
       );
   }
 

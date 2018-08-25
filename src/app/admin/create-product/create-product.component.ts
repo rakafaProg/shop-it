@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { DataService } from '../../data.service';
-import { environment } from 'src/environments/environment';
 import { Http } from '@angular/http';
+import { environment } from 'src/environments/environment';
+import { DataService } from '../../data.service';
 
 declare var $: any;
 
@@ -76,7 +76,8 @@ export class CreateProductComponent implements OnInit {
         $(document).ready(() => {
           $('.ui.checkbox').checkbox();
         });
-      }
+      },
+      err => window.location.href = '/login'
     );
   }
 
@@ -121,6 +122,7 @@ export class CreateProductComponent implements OnInit {
           }
         },
         err => {
+          if (err.status == 401) { window.location.href = '/login'; return; }
           this.status = 3;
         }
       )
