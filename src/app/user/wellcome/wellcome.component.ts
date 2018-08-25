@@ -9,16 +9,33 @@ import { DataService } from '../../data.service';
 export class WellcomeComponent implements OnInit {
 
   constructor(private dataService: DataService) { }
-  cart: any = this.dataService.cart;
 
-  userDetails: any = {
-    first_name: 'רקפת', 
-    status: 2
-  }
+  cart: any = this.dataService.cart;
+  user: any = this.dataService.user;
 
   ngOnInit() {
     this.dataService.getCart();
+    this.dataService.getUserDetails();
   }
 
+  deleteCart() {
+    this.dataService.deleteCart();
+  }
+
+  cartTotal() {
+    let total = 0
+    this.cart.data.forEach(item => {
+      total += item.total;
+    });
+    return total;
+  }
+
+  cartCount() {
+    let total = 0
+    this.cart.data.forEach(item => {
+      total += item.amount;
+    });
+    return total;
+  }
 
 }

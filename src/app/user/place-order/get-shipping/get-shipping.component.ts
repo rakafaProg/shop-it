@@ -16,7 +16,7 @@ export class GetShippingComponent implements OnInit {
 
   cities: any = [];
   user: any = {};
-  userData: any = {};
+  userData: any = this.dataService.user;
   invalid = false;
 
   takenDates: any = ['22/08/2018', '27/08/2018'];
@@ -59,25 +59,20 @@ export class GetShippingComponent implements OnInit {
       }
     );
 
-    this.dataService.getUserDetails().subscribe(
-      data => {
-        let userData = data.json();
-        this.userData = userData;
-      },
-      err => window.location.href = '/login'
-    )
+    this.dataService.getUserDetails();
+
   }
 
   autoStreet() {
-    this.user.street_name = this.userData.street_name;
+    this.user.street_name = this.userData.data.street_name;
   }
 
   autoHouseNumber() {
-    this.user.house_number = this.userData.house_number;
+    this.user.house_number = this.userData.data.house_number;
   }
 
   autoCity() {
-    this.user.city_id = this.userData.city_id;
+    this.user.city_id = this.userData.data.city_id;
     $('.ui.dropdown')
       .dropdown(
         'set selected',
@@ -97,6 +92,7 @@ export class GetShippingComponent implements OnInit {
           action: 'activate',
           onChange: (text, value) => {
             this.user.city_id = text;
+            this.dataService.user.data.city_name = value;
             this.invalid = false;
           }
         });

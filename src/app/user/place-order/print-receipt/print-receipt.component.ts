@@ -12,13 +12,9 @@ export class PrintReceiptComponent implements OnInit {
 
   cart: any = this.dataService.cart;
   reciptNumber = '10001';
+  user: any = this.dataService.user;
+  payment = { card: 1885 };
 
-  user = {
-    name: 'רקפת יפרח',
-    address: 'סן מרטין 22/18 ירושלים',
-    phone: '052-727-1196',
-    card: 1885
-  }
 
   ngOnInit() {
     $(document).ready(() => {

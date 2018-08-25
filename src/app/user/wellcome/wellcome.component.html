@@ -1,23 +1,86 @@
-<div class="ui segment orange main">
+<br><br><br>
+<div class="ui segment orange main center">
   <img src="assets/coloredLogo.png" class="ui centered image">
   <div class="ui inverted section divider"></div>
 
-
-  <div *ngIf="userDetails.status==1">
-
+  <!-- User is totally new to the website -->
+  <div *ngIf="user.data.isNew && !this.cart.data.length">
+    <h2 class="ui header orange center">
+      <br> שלום {{user.data.first_name}} {{user.data.last_name}},
+      <br> ברוכים הבאים לאתר הקניות של הפנינג!
+      <br><br> באתר מוצרים נהדרים,
+      <br> שבחרנו בקפידה במיוחד בשבילכם <i class="fitted gift orange icon centered"></i>
+      <br><br> אז למה אתם מחכים??
+    </h2>
+    <br>
+    <div class="ui fluid orange button" routerLink="shopping">
+      <i class="shopping basket icon"></i>
+      התחילו בקניה
+    </div>
+    <br>
   </div>
 
-  <div *ngIf="userDetails.status==2">
-    <h2 class="ui header orange">
-      <i class="comment alternate icon"></i>
-      שלום {{userDetails.first_name}},
+  <!-- User is not new, and has no open cart -->
+  <div *ngIf="!user.data.isNew && !this.cart.data.length">
+    <h2 class="ui header orange center">
+      <br> שלום {{user.data.first_name}} {{user.data.last_name}},
       <br> טוב לראותך שוב איתנו!
+      <br><br>העגלה שלך ריקה עדיין
+      <br> והאתר מלא במוצרים נהדרים
+      <br> שבחרנו בקפידה במיוחד בשבילך <i class="fitted gift orange icon centered"></i>
+      <br><br> עוד לא התחלת בקניות??
+    </h2>
+    <div class="ui fluid orange button" routerLink="shopping">
+      <i class="shopping basket icon"></i>
+      התחל בקניה
+    </div>
+    <br>
+    <br>
+  </div> 
+
+  <!-- User has an open cart -->
+  <div *ngIf="this.cart.data.length">
+    <h2 class="ui header orange center">
+      <br> שלום {{user.data.first_name}} {{user.data.last_name}},
+      <br> טוב לראותך שוב איתנו!
+      <br><br> עוד לא סיימת את הקניות שלך?
+      <br> אל דאגה, העגלה עדיין מחכה...
     </h2>
 
-    <br><br><br><br><br><br><br><br><br><br>
+    <br>
+    <div class="incart">
+      <div class="ui circular segment centered">
+        <h2 class="ui header">
+          סך פריטים
+        </h2>
+        <h3 class="ui header grey">{{cartCount() }}
+        </h3>
+        <i class="gift big orange icon"></i>
+      </div>
+
+      <div class="ui circular segment centered">
+        <h2 class="ui header">
+          סכום בעגלה
+        </h2>
+        <h3 class="ui header grey">{{cartTotal() | number: '1.2'}} ש"ח
+        </h3>
+        <i class="cart big orange icon"></i>
+      </div>
+    </div>
+    <br>
+
+    <div class="ui fluid buttons">
+      <button class="ui positive  button" routerLink='shopping'>
+        <i class="shopping basket icon"></i>
+        המשך בקניה
+      </button>
+      <div class="or" data-text="או"></div>
+      <button class="ui grey button" routerLink='shopping' (click)="deleteCart()">
+        <i class="plus icon"></i>
+        התחל קניה חדשה
+      </button>
+    </div>
+    <br><br>
   </div>
 </div>
-<br><br><br><br><br><br><br><br><br><br>
-
-
-
+<br><br><br>

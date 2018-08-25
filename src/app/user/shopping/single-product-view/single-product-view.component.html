@@ -1,17 +1,17 @@
 <div class="ui modal">
-  <h2 class="ui header orange center">{{product.name}} - {{product.price | number: '1.2'}} ש"ח</h2>
+  <h2 class="ui header orange center">{{product.data.name}} - {{product.data.price | number: '1.2'}} ש"ח</h2>
 
   <div class="image content">
     <div class="ui big image">
-      <img src="{{product.imageUrl}}">
+      <img src="{{product.data.imageUrl}}">
     </div>
     <div class="description">
       <h4 class="ui header grey">
         <i class="barcode icon"></i>
-        קוד פריט: {{product.code}}
+        קוד פריט: {{product.data.code}}
       </h4>
       <br>
-      <p [innerHtml]="product.details | nl2br"></p>
+      <p [innerHtml]="product.data.details | nl2br"></p>
 
     </div>
   </div>
@@ -26,9 +26,9 @@
       <input type="number" [(ngModel)]="amount" min="1" style="width: 100px">
     </div>
 
-    <div class="ui grey deny right labeled icon button">
+    <div class="ui grey deny right labeled icon button" (click)="onClose()">
       ביטול
-      <i class="close icon" (click)="amount=1"></i>
+      <i class="close icon"></i>
     </div>
   </div>
 </div>

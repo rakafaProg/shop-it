@@ -13,6 +13,8 @@ export class DataService {
   cart: any = { data: [] };
   search: any = { text: '' };
   products: any = { data: [] };
+  user: any = { data: {} };
+  activeProduct: any = { data: {} };
 
   constructor(private http: Http) { }
 
@@ -30,7 +32,11 @@ export class DataService {
   }
 
   getUserDetails() {
-    return this.http.get(this.apiUrl + 'api/user');
+    return this.http.get(this.apiUrl + 'api/user')
+      .subscribe(
+        user => this.user.data = user.json(),
+        err => window.location.href = '/login'
+      );
   }
 
   createProduct(product) {
@@ -51,7 +57,7 @@ export class DataService {
       .subscribe(
         data => {
           this.products.data = data.json(),
-          err => window.location.href = '/login'
+            err => window.location.href = '/login'
         }
       );
 

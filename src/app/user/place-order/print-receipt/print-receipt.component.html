@@ -6,13 +6,13 @@
     <strong>לכבוד:</strong>
   </p>
   <p>
-    {{user.name}}
+    {{user.data.first_name}} {{user.data.last_name}}
   </p>
   <p>
-    {{user.address}}
+    {{user.data.street_name}} {{user.data.house_number}} {{user.data.city_name}}
   </p>
   <p>
-    טלפון: {{user.phone}}
+    טלפון: {{user.data.phone}}
   </p>
   <table class="ui selectable table">
     <thead>
@@ -63,7 +63,7 @@
       </tr>
       <tr>
         <th colspan="4" class="ui header right aligned">
-          התקבל תשלום בכרטיס מספר ***{{user.card}}
+          התקבל תשלום בכרטיס מספר ***{{payment.card}}
         </th>
       </tr>
     </tfoot>

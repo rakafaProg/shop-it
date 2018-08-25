@@ -10,12 +10,12 @@
 
     <div class="ui left icon fluid field input" [ngClass]="{'error': firstName.invalid && (firstName.dirty || firstName.touched)}">
       <i class="user icon"></i>
-      <input type="text" placeholder="שם פרטי" disabled [(ngModel)]="userData.first_name" required #firstName="ngModel" (input)="invalid = false; signupFaild = false">
+      <input type="text" placeholder="שם פרטי" disabled [(ngModel)]="userData.data.first_name" required #firstName="ngModel" (input)="invalid = false; signupFaild = false">
     </div>
 
     <div class="ui left icon fluid field input" [ngClass]="{'error': lastName.invalid && (lastName.dirty || lastName.touched)}">
       <i class="user outline icon"></i>
-      <input type="text" placeholder="שם משפחה" disabled [(ngModel)]=userData.last_name required #lastName="ngModel" (input)="invalid = false; signupFaild = false">
+      <input type="text" placeholder="שם משפחה" disabled [(ngModel)]=userData.data.last_name required #lastName="ngModel" (input)="invalid = false; signupFaild = false">
     </div>
 
 

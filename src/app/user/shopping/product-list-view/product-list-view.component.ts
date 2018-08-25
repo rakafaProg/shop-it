@@ -14,7 +14,7 @@ export class ProductListViewComponent implements OnInit {
   constructor(private route: ActivatedRoute, private dataService: DataService) { }
 
   currentCategory = "";
-  selectedProduct = {};
+
   products: any = this.dataService.products;
 
   ngOnInit() {
@@ -28,7 +28,7 @@ export class ProductListViewComponent implements OnInit {
   }
 
   openModal(product) {
-    this.selectedProduct = product;
+    this.dataService.activeProduct.data = product;
     $('.ui.modal')
       .modal('setting', 'closable', false)
       .modal('show');

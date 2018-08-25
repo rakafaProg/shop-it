@@ -19,8 +19,8 @@ router.get('/api/cities', (req, res) => {
     });
 });
 
-const createToken = id => {
-    return jwt.sign({ id }, 'aetbikauhgihnkjbnikasbugfui', {
+const createToken = user => {
+    return jwt.sign(user, 'aetbikauhgihnkjbnikasbugfui', {
         expiresIn: 86400 // expires in 24 hours
     });
 }
@@ -43,7 +43,7 @@ router.post('/signup', (req, res) => {
             { city_id },
             (data, err) => {
                 if (!err && data.success) {
-                    res.cookie('tokenid', createToken(id), { maxAge: 86400 });
+                    res.cookie('tokenid', createToken({ id, created: new Date() }), { maxAge: 86400 });
                     res.send({ success: true, toUrl: '/happ' });
                 } else {
                     res.status(500).send({ success: false, msg: 'User Creating Failed.' });
@@ -60,7 +60,7 @@ router.post('/login', (req, res) => {
         db.getQuery(`SELECT first_name FROM USERS WHERE id='${id}' AND password='${password}'`, (data, err) => {
             if (!err && data.length > 0) {
                 db.getQuery(`SELECT * FROM admins WHERE id='${id}'`, (data, err) => {
-                    res.cookie('tokenid', createToken(id), { maxAge: 86400 });
+                    res.cookie('tokenid', createToken({ id }), { maxAge: 86400 });
                     if (!err && data.length > 0)
                         res.status(200).send({ success: true, toUrl: '/admin' });
                     else
@@ -85,6 +85,7 @@ router.use((req, res, next) => {
         decodeToken(req.cookies.tokenid, (err, decoded) => {
             if (!err) {
                 userToken.id = decoded.id;
+                userToken.created = decoded.created;
                 userId = userToken.id;
             }
         });
@@ -94,9 +95,9 @@ router.use((req, res, next) => {
 
 // handle cli
 router.use((req, res, next) => {
-    //console.log(req.headers.origin);
     if (req.headers.origin && req.headers.origin.includes('localhost:4200')) {
-        userToken.id = '123456782';
+        userToken.id = '111111118';
+        userToken.created = false;
         userId = userToken.id;
     }
     next();
@@ -122,10 +123,13 @@ router.use('/api', (req, res, next) => {
 
 router.get('/api/user', (req, res) => {
     db.getQuery(`SELECT * FROM users WHERE id="${userId}"`, (users, err) => {
-        if (err) {
+        if (err || !users.length) {
             res.status(500).send(err);
         } else {
-            res.send(users[0]);
+            let user = users[0];
+            delete user.password;
+            user.isNew = userToken.created ? true : false;
+            res.send(user);
         }
     });
 });
