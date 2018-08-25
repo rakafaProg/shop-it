@@ -30,7 +30,6 @@ export class CategoriesHeaderComponent implements OnInit {
         (params: Params) => {
           this.currentCategoy = params['category'];
           this.updateCurrentCategoryView();
-          //console.log(params);
         }
       );
 

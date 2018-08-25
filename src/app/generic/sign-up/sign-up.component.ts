@@ -19,7 +19,7 @@ export class SignUpComponent implements OnInit {
   }
 
   nextFase() {
-    console.log(this.user);
+
 
     if (
       this.validateID() &&

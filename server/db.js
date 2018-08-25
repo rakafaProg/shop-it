@@ -41,7 +41,7 @@ exports.insertQuery = (table, textFields, numberFields, callback) => {
 
     con.query(query, (err, data) => {
         if (err || !data.affectedRows) {
-            callback(null, 'Err: could not save your data');
+            callback(null, err);
         } else {
             callback({ success: true, insertedId: data.insertedId });
         }

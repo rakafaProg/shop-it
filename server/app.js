@@ -4,6 +4,7 @@ const cors = require('cors');
 
 const login = require('./login');
 const generic = require('./generic');
+const imageUploading = require('./imageUploading');
 
 const app = express();
 const PORT = 8080;
@@ -16,6 +17,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(login);
 app.use(generic);
+app.use(imageUploading);
 
 app.get('*', (req, res) => {
     res.sendFile('index.html', { root });

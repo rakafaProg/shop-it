@@ -19,8 +19,6 @@ export class SignUp2Component implements OnInit {
 
 
   ngOnInit() {
-    console.log('sign up 2');
-    console.log(this.user);
 
     this.dataService.getCities().subscribe(
       cities => {
@@ -48,9 +46,6 @@ export class SignUp2Component implements OnInit {
   }
 
   finishSignup() {
-    // this.user.city=$('.ui.dropdown .text').val();
-    console.log('sending user to server');
-    console.log(this.user);
     if (!this.validateForm()) {
       this.invalid = true;
       return;

@@ -41,13 +41,19 @@
             <h4 class="ui dividing yellow header">תמונה</h4>
             <div class="ui stackable two column grid row">
               <div class="column">
-                <div class="field hidden">
-                  <label>בחר תמונה</label>
-
+                <div class="field">
+                  <label>בחר תמונה</label> 
+                  <input id="imageUpload" type="file" (change)="fileChangeEvent($event)" placeholder="Upload file..." />
                 </div>
                 <div class="field">
                   <label>או הכנס קישור לתמונה</label>
-                  <input type="text" placeholder="הכנס קישור חיצוני לתמונה" [(ngModel)]="product.imageUrl">
+                  <input 
+                  id="imageUrl" 
+                    type="text" 
+                    placeholder="הכנס קישור חיצוני לתמונה" 
+                    (input)="changeImageUrl(product.imageUrl=$event.target.value)"
+                    [(ngModel)]=imageUrl
+                  >
                 </div>
               </div>
               <div class="column">
@@ -111,7 +117,7 @@
             <div class="ui fluid buttons">
               <button class="ui positive button" (click)="sendForm()">נסה שנית</button>
               <div class="or" data-text="או"></div>
-              <button class="ui  button" (click)="status=0">ערוך פרטי מוצר</button>
+              <button class="ui  button" (click)="tryAgain()">ערוך פרטי מוצר</button>
             </div>
           </div>
 

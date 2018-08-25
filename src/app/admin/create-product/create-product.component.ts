@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DataService } from '../../data.service';
+import { environment } from 'src/environments/environment';
+import { Http } from '@angular/http';
 
 declare var $: any;
 
@@ -10,12 +12,62 @@ declare var $: any;
 })
 export class CreateProductComponent implements OnInit {
 
-  constructor(private dataService: DataService) { }
+  constructor(private dataService: DataService, private http: Http) {
+    this.filesToUpload = [];
+  }
+
+
+  uploadUrl = environment.serverAdress;
 
   status = 0;
   product: any = {};
   categories: any = [];
   checkedCategories: any = {};
+  filesToUpload: Array<File>;
+  imageUrl: any = '';
+
+
+  fileChangeEvent(fileInput: any) {
+    this.filesToUpload = <Array<File>>fileInput.target.files;
+
+    if (this.filesToUpload && this.filesToUpload[0]) {
+      var reader = new FileReader();
+
+      reader.onload = (e: any) => {
+        this.product.imageUrl = e.target.result;
+        this.imageUrl = '';
+      };
+
+      reader.readAsDataURL(this.filesToUpload[0]);
+    }
+    else {
+      this.product.imageUrl = '';
+    }
+  }
+
+  changeImageUrl(url) {
+    this.imageUrl = url;
+    const uploadInput = $('#imageUpload');
+    uploadInput.wrap('<form>').closest('form').get(0).reset();
+    uploadInput.unwrap();
+    this.filesToUpload = [];
+    this.product.imageUrl = url;
+  }
+
+  makeFileRequest(url: string, files: Array<File>, callback) {
+    const imageFile = files[0];
+    this.status = 1;
+    return new Promise((resolve, reject) => {
+      var formData: any = new FormData();
+      formData.append("image", imageFile, imageFile.name);
+      this.http.post(url, formData)
+        .subscribe(
+          res => callback(res.json()),
+          err => callback(null, err)
+        );
+
+    });
+  }
 
   ngOnInit() {
     this.dataService.getCategories().subscribe(
@@ -34,15 +86,34 @@ export class CreateProductComponent implements OnInit {
     this.status = 0;
     $(document).ready(() => {
       $('.ui.checkbox').checkbox();
+      this.changeImageUrl('');
     });
   }
 
   sendForm() {
+
+
+    if (this.filesToUpload.length) {
+      this.makeFileRequest(this.uploadUrl + 'fileupload', this.filesToUpload, (imageUrl, errUploading) => {
+        if (imageUrl) {
+          this.product.imageUrl = 'images/' + imageUrl;
+
+          this.saveProduct();
+        }
+        else {
+          this.status = 3;
+        }
+      });
+    } else {
+      this.saveProduct()
+    }
+  }
+
+  saveProduct() {
     this.status = 1;
     this.dataService.createProduct({ product: this.product, categories: this.checkedCategories })
       .subscribe(
         res => {
-          console.log(res.json);
           if (res.json().success) {
             this.status = 2;
           } else {
@@ -51,9 +122,15 @@ export class CreateProductComponent implements OnInit {
         },
         err => {
           this.status = 3;
-          console.log(err);
         }
       )
+  }
+
+  tryAgain() {
+    this.status = 0;
+    $(document).ready(() => {
+      $('.ui.checkbox').checkbox();
+    });
   }
 
   validate() {
@@ -62,7 +139,7 @@ export class CreateProductComponent implements OnInit {
       this.product.details &&
       this.product.name &&
       this.product.price &&
-      this.product.imageUrl
+      (this.product.imageUrl || this.filesToUpload.length)
     ) {
       return true;
     }

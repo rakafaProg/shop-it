@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
+import { environment } from '../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataService {
 
-  apiUrl = 'http://localhost:8080/';
+  apiUrl = environment.serverAdress;
   //apiUrl = '/api/';
 
   cart: any = { data: [] };
