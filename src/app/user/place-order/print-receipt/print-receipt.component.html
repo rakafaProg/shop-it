@@ -1,3 +1,94 @@
-<p>
-  print-receipt works!
-</p>
+<div class="ui tall stacked segment printArea">
+  <h3 class="center">
+    חשבונית מס / קבלה {{reciptNumber}}
+  </h3>
+  <p>
+    <strong>לכבוד:</strong>
+  </p>
+  <p>
+    {{user.name}}
+  </p>
+  <p>
+    {{user.address}}
+  </p>
+  <p>
+    טלפון: {{user.phone}}
+  </p>
+  <table class="ui selectable table">
+    <thead>
+      <tr>
+        <th> פריט</th>
+        <th> מחיר </th>
+        <th> כמות </th>
+        <th> סך-הכל </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of cart.data">
+        <td>
+          <h4 class="ui header">
+            <div class="content">
+              {{item.name}}
+              <div class="sub header">
+                {{item.code}}
+              </div>
+            </div>
+          </h4>
+        </td>
+        <td>
+          {{item.price | number:'1.2'}}
+          <i class="shekel sign small icon"></i>
+        </td>
+        <td>
+          <div>{{item.amount}}</div>
+        </td>
+        <td>{{item.total | number:'1.2'}}
+          <i class="shekel sign small icon"></i>
+        </td>
+
+      </tr>
+    </tbody>
+    <tfoot>
+      <tr>
+        <th colspan="4"></th>
+      </tr>
+      <tr class="ui header">
+        <th colspan="2" class="right aligned">
+          סך הכל לתשלום:
+        </th>
+        <th>{{cartCount()}} פריטים</th>
+        <th>{{cartTotal() | number: '1.2'}}
+          <i class="shekel sign small icon"></i>
+        </th>
+      </tr>
+      <tr>
+        <th colspan="4" class="ui header right aligned">
+          התקבל תשלום בכרטיס מספר ***{{user.card}}
+        </th>
+      </tr>
+    </tfoot>
+  </table>
+
+
+</div>
+
+<div class="ui center aligned container noscreen">
+  <img src="assets/logo.png" class="item ui centered image">
+  <div class="ui horizontal inverted small divided list">
+    <div class="item">הפנינג ירושלים</div>
+    <div class="item">אגודת ספורט ביתר 10 קניון מלחה</div>
+    <div class="item">02-6793417</div>
+  </div>
+</div>
+
+<div class="ui fluid buttons noprint">
+  <button class="ui orange button" (click)="onPrintClick()">
+    <i class="print icon"></i>
+    הדפס קבלה
+  </button>
+  <div class="or" data-text="או"></div>
+  <button class="ui positive button" routerLink='/happ'>
+    <i class="home icon"></i>
+    חזור לדף הבית
+  </button>
+</div>

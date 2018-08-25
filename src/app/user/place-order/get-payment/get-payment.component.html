@@ -1,6 +1,16 @@
 <p>
   get-payment works!
 </p>
-<a class="ui button positive" routerLink='/happ/place-order/print-recipt'>
-  next
-</a>
+
+
+<div class="ui fluid buttons">
+  <button class="ui orange button" (click)="onBackClick()">
+    <i class="play icon"></i>
+    לשלב הקודם
+  </button>
+  <div class="or" data-text="או"></div>
+  <button class="ui positive button" routerLink='/happ/place-order/print-recipt'>
+    <i class="check icon"></i>
+    אשר תשלום והזמנה
+  </button>
+</div>

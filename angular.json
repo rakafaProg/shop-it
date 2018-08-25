@@ -29,6 +29,8 @@
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",
+              "node_modules/jquery-ui/ui/widgets/datepicker.js",
+              "node_modules/jquery-ui/ui/i18n/datepicker-he.js",
               "semantic/dist/semantic.min.js"
             ]
           },

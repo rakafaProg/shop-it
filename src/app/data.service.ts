@@ -28,6 +28,10 @@ export class DataService {
     return this.http.post(this.apiUrl + 'login', user);
   }
 
+  getUserDetails() {
+    return this.http.get(this.apiUrl + 'api/user');
+  }
+
   createProduct(product) {
     return this.http.post(this.apiUrl + 'api/newProduct', product);
   }

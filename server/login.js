@@ -4,6 +4,7 @@ const db = require('./db');
 const router = express.Router();
 
 module.exports = router;
+const userId = '200962439';
 
 router.get('/api/cities', (req, res) => {
     db.getQuery('SELECT * FROM cities ORDER BY name', (cities, err) => {
@@ -55,6 +56,16 @@ router.post('/login', (req, res) => {
     } else {
         res.status(400).send({ success: false, msg: 'Invalid Data' });
     }
+});
+
+router.get('/api/user', (req, res) => {
+    db.getQuery(`SELECT * FROM users WHERE id="${userId}"`, (users, err) => {
+        if (err) {
+            res.status(500).send(err);
+        } else {
+            res.send(users[0]);
+        }
+    });
 });
 
 

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { DataService } from '../../../data.service';
 declare var $: any;
 @Component({
   selector: 'print-receipt',
@@ -7,7 +8,17 @@ declare var $: any;
 })
 export class PrintReceiptComponent implements OnInit {
 
-  constructor() { }
+  constructor(private dataService: DataService) { }
+
+  cart: any = this.dataService.cart;
+  reciptNumber = '10001';
+
+  user = {
+    name: 'רקפת יפרח',
+    address: 'סן מרטין 22/18 ירושלים',
+    phone: '052-727-1196',
+    card: 1885
+  }
 
   ngOnInit() {
     $(document).ready(() => {
@@ -20,6 +31,26 @@ export class PrintReceiptComponent implements OnInit {
       $('.four.steps .step.finish')
         .addClass('active').removeClass('disabled');
     });
+  }
+
+  onPrintClick() {
+    window.print();
+  }
+
+  cartTotal() {
+    let total = 0
+    this.cart.data.forEach(item => {
+      total += item.total;
+    });
+    return total;
+  }
+
+  cartCount() {
+    let total = 0
+    this.cart.data.forEach(item => {
+      total += item.amount;
+    });
+    return total;
   }
 
 }

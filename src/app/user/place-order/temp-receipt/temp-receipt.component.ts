@@ -10,7 +10,7 @@ declare var $: any;
 export class TempReceiptComponent implements OnInit {
 
   constructor(private dataService: DataService) { }
-  editedItem: any = null;
+  editedItem: any = null; 
   editedAmount = 0;
   cart: any = this.dataService.cart;
 

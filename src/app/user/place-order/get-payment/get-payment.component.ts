@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Location } from '@angular/common';
+
 declare var $: any;
 
 @Component({
@@ -8,7 +10,7 @@ declare var $: any;
 })
 export class GetPaymentComponent implements OnInit {
 
-  constructor() { }
+  constructor(private location: Location) { }
 
   ngOnInit() {
     $(document).ready(() => {
@@ -21,6 +23,10 @@ export class GetPaymentComponent implements OnInit {
       $('.four.steps .step.finish')
         .addClass('disabled').removeClass('active');
     });
+  }
+
+  onBackClick() {
+    this.location.back();
   }
 
 }

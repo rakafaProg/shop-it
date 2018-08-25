@@ -1,34 +1,57 @@
 <div class="ui form">
   <div class="ui stacked segment orange">
+
+    <h2 class="ui header orange">פרטי משלוח</h2>
+    <p class="ui sub header">
+      אנא מלא כתובת אליה תרצה שההזמנה תגיע
+      <br> ובחר תאריך זמין למשלוח.
+      <br> לבחירת הפרטים אותם מילאת בעת ההרשמה לאתר, לחץ לחיצה כפולה על השדה הרצוי.
+    </p>
+
     <div class="ui left icon fluid field input" [ngClass]="{'error': firstName.invalid && (firstName.dirty || firstName.touched)}">
       <i class="user icon"></i>
-      <input type="text" placeholder="שם פרטי" [(ngModel)]="user.first_name" required #firstName="ngModel" (input)="invalid = false; signupFaild = false">
+      <input type="text" placeholder="שם פרטי" disabled [(ngModel)]="userData.first_name" required #firstName="ngModel" (input)="invalid = false; signupFaild = false">
     </div>
 
     <div class="ui left icon fluid field input" [ngClass]="{'error': lastName.invalid && (lastName.dirty || lastName.touched)}">
       <i class="user outline icon"></i>
-      <input type="text" placeholder="שם משפחה" [(ngModel)]=user.last_name required #lastName="ngModel" (input)="invalid = false; signupFaild = false">
+      <input type="text" placeholder="שם משפחה" disabled [(ngModel)]=userData.last_name required #lastName="ngModel" (input)="invalid = false; signupFaild = false">
     </div>
 
+
+    <div class="ui left icon fluid field input" [ngClass]="{'error': street.invalid && (street.dirty || street.touched)}">
+      <i class="building icon"></i>
+      <input type="text" placeholder="רחוב" [(ngModel)]=user.street_name required #street="ngModel" (input)="invalid = false" (dblclick)="autoStreet()">
+    </div>
+
+    <div class="ui left icon fluid field input" [ngClass]="{'error': house.invalid && (house.dirty || house.touched)}">
+      <i class="building outline icon"></i>
+      <input type="text" placeholder="מספר בית" [(ngModel)]=user.house_number required #house="ngModel" (input)="invalid = false"
+        (dblclick)=autoHouseNumber()>
+    </div>
     <div class="ui left icon fluid field input">
       <i class="address card icon"></i>
-      <div class="ui fluid search dropdown">
+      <div class="ui fluid search dropdown" (dblclick)=autoCity()>
         <div class="text"></div>
         <i class="dropdown icon"></i>
       </div>
     </div>
 
-    <div class="ui left icon fluid field input" [ngClass]="{'error': street.invalid && (street.dirty || street.touched)}">
-      <i class="building icon"></i>
-      <input type="text" placeholder="רחוב" [(ngModel)]=user.street_name required #street="ngModel" (input)="invalid = false; signupFaild = false">
-    </div>
-
     <div class="ui left icon fluid field input" [ngClass]="{'error': house.invalid && (house.dirty || house.touched)}">
-      <i class="building outline icon"></i>
-      <input type="text" placeholder="מספר בית" [(ngModel)]=user.house_number required #house="ngModel" (input)="invalid = false; signupFaild = false">
+      <i class="calendar alternate icon"></i>
+      <input type="text" class="datePicker" placeholder="תאריך משלוח" [(ngModel)]=user.shipping_date required (input)="invalid = false">
     </div>
   </div>
 </div>
-<a class="ui button positive" routerLink='/happ/place-order/payment'>
-  next
-</a>
+
+<div class="ui fluid buttons">
+  <button class="ui orange button" (click)="onBackClick()">
+    <i class="play icon"></i>
+    לשלב הקודם
+  </button>
+  <div class="or" data-text="או"></div>
+  <button class="ui positive button" routerLink='/happ/place-order/payment'>
+    <i class="credit card icon"></i>
+    המשך לתשלום
+  </button>
+</div>

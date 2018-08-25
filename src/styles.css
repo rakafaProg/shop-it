@@ -58,3 +58,9 @@ p {
         display: none !important;
     }
 }
+
+@media screen {
+    .noscreen {
+        display: none !important;
+    }
+}
