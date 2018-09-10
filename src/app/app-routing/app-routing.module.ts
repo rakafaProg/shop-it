@@ -118,6 +118,10 @@ const routes: Routes = [
       {
         path: 'new-product',
         component: CreateProductComponent
+      },
+      {
+        path: 'new-product/:code', 
+        component: CreateProductComponent
       }
     ]
   }

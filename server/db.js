@@ -18,7 +18,7 @@ con.connect(err => {
 exports.getQuery = (query, callback) => {
     con.query(query, (err, rows) => {
         if (err) {
-            callback(null, 'Err: could not get your data');
+            callback(null, err);
         } else {
             callback(rows);
         }

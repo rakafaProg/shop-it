@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Http } from '@angular/http';
 import { environment } from 'src/environments/environment';
 import { DataService } from '../../data.service';
+import { ActivatedRoute, Params } from '@angular/router';
 
 declare var $: any;
 
@@ -12,14 +13,17 @@ declare var $: any;
 })
 export class CreateProductComponent implements OnInit {
 
-  constructor(private dataService: DataService, private http: Http) {
+  constructor(private dataService: DataService, private http: Http, private route: ActivatedRoute) {
     this.filesToUpload = [];
   }
+
+  editMode = false;
 
 
   uploadUrl = environment.serverAdress;
 
   status = 0;
+  originalCode: '';
   product: any = {};
   categories: any = [];
   checkedCategories: any = {};
@@ -70,6 +74,30 @@ export class CreateProductComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.route.params
+      .subscribe(
+        (params: Params) => {
+          if (params['code']) {
+            this.product.code = params['code'];
+            this.dataService.getProductDetails(this.product.code)
+              .subscribe(
+                data => {
+                  const tempProduct = data.json().product;
+                  this.originalCode = tempProduct.code;
+                  this.product = tempProduct;
+                  this.imageUrl = tempProduct.imageUrl;
+                  data.json().categories.forEach(item => {
+                    this.checkedCategories[item.category] = true;
+                  })
+                }
+              )
+            this.editMode = true;
+          } else {
+            this.editMode = false;
+          }
+
+        }
+      )
     this.dataService.getCategories().subscribe(
       categories => {
         this.categories = categories.json();
@@ -112,20 +140,37 @@ export class CreateProductComponent implements OnInit {
 
   saveProduct() {
     this.status = 1;
-    this.dataService.createProduct({ product: this.product, categories: this.checkedCategories })
-      .subscribe(
-        res => {
-          if (res.json().success) {
-            this.status = 2;
-          } else {
+    if (this.editMode) {
+      this.dataService.updateProduct({ product: this.product, categories: this.checkedCategories }, this.originalCode)
+        .subscribe(
+          res => {
+            if (res.json().success) {
+              this.status = 2;
+            } else {
+              this.status = 3;
+            }
+          },
+          err => {
+            if (err.status == 401) { window.location.href = '/login'; return; }
             this.status = 3;
           }
-        },
-        err => {
-          if (err.status == 401) { window.location.href = '/login'; return; }
-          this.status = 3;
-        }
-      )
+        )
+    } else {
+      this.dataService.createProduct({ product: this.product, categories: this.checkedCategories })
+        .subscribe(
+          res => {
+            if (res.json().success) {
+              this.status = 2;
+            } else {
+              this.status = 3;
+            }
+          },
+          err => {
+            if (err.status == 401) { window.location.href = '/login'; return; }
+            this.status = 3;
+          }
+        )
+    }
   }
 
   tryAgain() {

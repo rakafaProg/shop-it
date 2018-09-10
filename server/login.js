@@ -87,6 +87,7 @@ router.use((req, res, next) => {
                 userToken.id = decoded.id;
                 userToken.created = decoded.created;
                 userId = userToken.id;
+                res.cookie('tokenid', req.cookies.tokenid, { maxAge: 86400 });
             }
         });
     }

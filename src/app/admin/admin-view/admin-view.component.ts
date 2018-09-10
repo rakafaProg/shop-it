@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { DataService } from '../../data.service';
 
 @Component({
   selector: 'admin-view',
@@ -7,9 +8,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AdminViewComponent implements OnInit {
 
-  constructor() { }
+  products = [];
+  constructor(private dataService: DataService) { }
 
   ngOnInit() {
+    this.dataService.getAllProducts().subscribe(
+      data => {
+        this.products = data.json();
+      }
+    );
   }
 
 }

@@ -39,6 +39,19 @@ export class DataService {
       );
   }
 
+  getAllProducts() {
+    return this.http.get(this.apiUrl + 'api/products/all');
+  }
+
+  getProductDetails(code) {
+    return this.http.get(this.apiUrl +  "api/product/" + code);
+  }
+  
+
+  updateProduct(product, code) {
+    return this.http.put(this.apiUrl + 'api/updateProduct/' + code, product);
+  }
+
   createProduct(product) {
     return this.http.post(this.apiUrl + 'api/newProduct', product);
   }

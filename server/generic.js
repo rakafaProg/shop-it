@@ -62,6 +62,74 @@ router.get('/api/products/search/:text', (req, res) => {
     )
 });
 
+router.get('/api/products/all', (req, res) => {
+    db.getQuery(
+        `SELECT code, name, details, imageUrl, price
+        FROM products`,
+        (products, err) => {
+            if (err) {
+                console.log(err);
+                res.status(500).send(err);
+            } else {
+                res.send(products);
+            }
+        }
+    )
+});
+
+router.put('/api/updateProduct/:code', (req, res) => {
+    const { product, categories } = req.body;
+    const { imageUrl, code, details, name, price } = product;
+    updateQuery = `
+        UPDATE products SET 
+        code="${code}", name="${name}", details="${details}", price="${price}", imageUrl="${imageUrl}"
+        WHERE code="${req.params.code}";
+
+        
+    `;
+
+    db.getQuery(
+        updateQuery,
+        (result, err) => {
+            if (err) {
+                console.log(err);
+                res.status(500).send({ success: false, msg: 'Product Updating Failed.' });
+            } else {
+                db.getQuery(`DELETE FROM categoriestoproducts WHERE product="${req.params.code}";`, d => { });
+                for (let cat in categories) {
+                    if (categories[cat] == true) {
+                        db.insertQuery('categoriesToProducts', { product: code }, { category: cat }, dt => console.log(dt));
+                    }
+                }
+                res.send({ success: true, msg: 'Updated Successfully' });
+            }
+        }
+    )
+});
+
+router.get('/api/product/:code', (req, res) => {
+    db.getQuery(
+        `SELECT code, name, details, imageUrl, price
+        FROM products WHERE code=${req.params.code}`,
+        (product, err) => {
+            if (err) {
+                console.log(err);
+                res.status(500).send(err);
+            } else {
+                db.getQuery(`SELECT * FROM categoriestoproducts WHERE product="${req.params.code}"`, (categories, err2) => {
+                    if (err2) {
+                        res.status(500).send(err2);
+                    } else {
+                        res.send({ product: product[0], categories });
+                    }
+                });
+            }
+        }
+    )
+});
+
+
+
 // ===============================
 //  Cart API
 // ===============================
@@ -138,7 +206,6 @@ router.delete('/api/cart', (req, res) => {
 
 router.post('/api/cartItem', (req, res) => {
     const { code, amount } = req.body;
-    const updateQuery = `INSERT INTO carts(user_id, product_id, amount) VALUES ('${userId}','${code}',${amount})`;
 
     db.insertQuery(
         'carts',
@@ -179,7 +246,7 @@ router.post('/api/newProduct', (req, res) => {
                         db.insertQuery('categoriesToProducts', { product: code }, { category: cat }, dt => console.log(dt));
                     }
                 }
-                res.send({ success: true, toUrl: '/happ' });
+                res.send({ success: true });
             } else {
                 console.log(err);
                 res.status(500).send({ success: false, msg: 'Product Creating Failed.' });
