@@ -8,7 +8,6 @@ import { environment } from '../environments/environment';
 export class DataService {
 
   apiUrl = environment.serverAdress;
-  //apiUrl = '/api/';
 
   cart: any = { data: [] };
   search: any = { text: '' };
@@ -20,6 +19,14 @@ export class DataService {
 
   getCities() {
     return this.http.get(this.apiUrl + 'api/cities');
+  }
+
+  countProducts() {
+    return this.http.get(this.apiUrl + 'api/countProducts');
+  }
+
+  countOrders() {
+    return this.http.get(this.apiUrl + 'api/countOrders');
   }
 
 

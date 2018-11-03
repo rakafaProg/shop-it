@@ -19,6 +19,26 @@ router.get('/api/cities', (req, res) => {
     });
 });
 
+router.get('/api/countOrders', (req, res) => {
+    db.getQuery('SELECT COUNT(id) count FROM orders', (count, err) => {
+        if (err) {
+            res.status(500).send(err);
+        } else {
+            res.send(count[0]);
+        }
+    });
+});
+
+router.get('/api/countProducts', (req, res) => {
+    db.getQuery('SELECT COUNT(code) count FROM products', (count, err) => {
+        if (err) {
+            res.status(500).send(err);
+        } else {
+            res.send(count[0]);
+        }
+    });
+});
+
 const createToken = user => {
     return jwt.sign(user, 'aetbikauhgihnkjbnikasbugfui', {
         expiresIn: 86400 // expires in 24 hours

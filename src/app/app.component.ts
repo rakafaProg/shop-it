@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { DataService } from './data.service';
 
 @Component({
   selector: 'app-root',
@@ -6,8 +7,14 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  openOrClose="פתוח עכשיו";
-  usersCount=12;
-  productsCount=567;
-  ordersCount=210;
+  productsCount = 0;
+  ordersCount = 0;
+
+  constructor(private dataService: DataService) { }
+
+  ngOnInit() {
+    this.dataService.countOrders().subscribe(data => this.ordersCount = data.json().count);
+    this.dataService.countProducts().subscribe(data => this.productsCount = data.json().count);
+  }
+
 }
