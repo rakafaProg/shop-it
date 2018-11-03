@@ -1,19 +1,34 @@
 <div class="ui tall stacked segment printArea">
   <h3 class="center">
-    חשבונית מס / קבלה {{reciptNumber}}
+    חשבונית מס / קבלה {{lastOrder.id}}
   </h3>
-  <p>
-    <strong>לכבוד:</strong>
-  </p>
-  <p>
-    {{user.data.first_name}} {{user.data.last_name}}
-  </p>
-  <p>
-    {{user.data.street_name}} {{user.data.house_number}} {{user.data.city_name}}
-  </p>
-  <p>
-    טלפון: {{user.data.phone}}
-  </p>
+  <div class="ui equal width grid">
+    <div class="column">
+      <p>
+        <strong>לכבוד:</strong>
+      </p>
+      <p>
+        {{user.first_name}} {{user.last_name}}
+      </p>
+      <p>
+        {{lastOrder.street}} {{lastOrder.cityName}}
+      </p>
+      <p>
+        טלפון: {{user.phone}}
+      </p>
+    </div>
+    <div class="column">
+      <p>
+        <strong>תאריך הזמנה:</strong>
+        {{lastOrder.order_date}}
+      </p>
+      <p>
+        <strong>תאריך אספקה:</strong>
+        {{lastOrder.delivery_date}}
+      </p>
+    </div>
+  </div>
+
   <table class="ui selectable table">
     <thead>
       <tr>
@@ -24,7 +39,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let item of cart.data">
+      <tr *ngFor="let item of lastOrderData">
         <td>
           <h4 class="ui header">
             <div class="content">
@@ -63,7 +78,7 @@
       </tr>
       <tr>
         <th colspan="4" class="ui header right aligned">
-          התקבל תשלום בכרטיס מספר ***{{user.data.cardNumber}}
+          התקבל תשלום בכרטיס מספר ***{{lastOrder.credit_card}}
         </th>
       </tr>
     </tfoot>

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { DataService } from '../../../data.service';
+import { Router } from '@angular/router';
 
 declare var $: any;
 
@@ -11,10 +12,10 @@ declare var $: any;
 })
 export class GetPaymentComponent implements OnInit {
 
-  constructor(private location: Location, private dataService: DataService) { }
+  constructor(private location: Location, private dataService: DataService, private router: Router) { }
 
   user: any;
-
+  isLoading = false;
 
   ngOnInit() {
     $(document).ready(() => {
@@ -29,9 +30,13 @@ export class GetPaymentComponent implements OnInit {
     });
 
     this.user = this.dataService.user;
-    console.log(this.user);
+
+    if (!this.user.data.street_name_ship) {
+      this.router.navigate(['/happ/place-order/shipping'])
+      return;
+    }
+
     this.user.data = { ...this.dataService.user.data, cardCVC: "", cardNumber: "", cardUser: "", cardDate: "" };
-    console.log(this.user);
   }
 
   onBackClick() {
@@ -59,8 +64,17 @@ export class GetPaymentComponent implements OnInit {
   }
 
   formValid() {
-
     return this.validateDate() && this.validateCard() && this.validateCVC() && this.user.data.cardUser;
+  }
+
+  placeOrder() {
+    this.isLoading = true;
+    setTimeout(() => {
+      this.dataService.placeOrder(() => {
+        this.isLoading = false;
+        this.router.navigate(['/happ/place-order/print-recipt'])
+      })
+    }, 3000);
   }
 
 

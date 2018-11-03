@@ -30,13 +30,24 @@
       <br> שבחרנו בקפידה במיוחד בשבילך <i class="fitted gift orange icon centered"></i>
       <br><br> עוד לא התחלת בקניות??
     </h2>
-    <div class="ui fluid orange button" routerLink="shopping">
-      <i class="shopping basket icon"></i>
-      התחל בקניה
+
+    <div *ngIf="lastOrder.data.order.id" class="incart">
+      <div class="ui circular segment centered button" routerLink="place-order/print-recipt">
+        <h4 class="ui header">
+          הצג הזמנה אחרונה
+        </h4>
+        <h3 class="ui header grey">#{{lastOrder.data.order.id}}
+        </h3>
+        <i class="truck big orange icon"></i>
+      </div>
+      <br> <br>
+      <div class="ui fluid orange button" routerLink="shopping">
+        <i class="shopping basket icon"></i>
+        התחל בקניה
+      </div>
+      <br> <br>
     </div>
-    <br>
-    <br>
-  </div> 
+  </div>
 
   <!-- User has an open cart -->
   <div *ngIf="this.cart.data.length">

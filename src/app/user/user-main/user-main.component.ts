@@ -18,6 +18,7 @@ export class UserMainComponent implements OnInit {
   ngOnInit() {
     this.dataService.getCart();
     this.dataService.getUserDetails();
+    this.dataService.getLastOrder();
   }
 
 }

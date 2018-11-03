@@ -11,9 +11,9 @@ export class PrintReceiptComponent implements OnInit {
 
   constructor(private dataService: DataService, private router: Router) { }
 
-  cart: any = this.dataService.cart;
-  reciptNumber = '10001';
-  user: any = this.dataService.user;
+  user: any = this.dataService.user.data;
+  lastOrderData: any = this.dataService.lastOrder.data.data;
+  lastOrder: any = this.dataService.lastOrder.data.order;
 
 
   ngOnInit() {
@@ -29,13 +29,10 @@ export class PrintReceiptComponent implements OnInit {
     });
 
 
-    const card = this.dataService.user.data.cardNumber;
-    if (!card) {
-      //window.location.href = '/happ/place-order/payment';
-      this.router.navigate(['/happ/place-order/payment'])
+    if (!this.lastOrderData.length) {
+      this.router.navigate(['/happ'])
       return;
     }
-    this.dataService.user.data.cardNumber = card.substring(card.length - 4);
   }
 
   onPrintClick() {
@@ -44,7 +41,7 @@ export class PrintReceiptComponent implements OnInit {
 
   cartTotal() {
     let total = 0
-    this.cart.data.forEach(item => {
+    this.lastOrderData.forEach(item => {
       total += item.total;
     });
     return total;
@@ -52,7 +49,7 @@ export class PrintReceiptComponent implements OnInit {
 
   cartCount() {
     let total = 0
-    this.cart.data.forEach(item => {
+    this.lastOrderData.forEach(item => {
       total += item.amount;
     });
     return total;

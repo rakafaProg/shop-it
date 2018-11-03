@@ -17,12 +17,12 @@ export class GetShippingComponent implements OnInit {
   userData: any = this.dataService.user;
   invalid = false;
 
-  takenDates: any = ['22/08/2018', '27/08/2018'];
-
+  takenDates: any = [];
+  //22/08/2018   2018-08-22
   filterNonWorkingDays(date) {
 
     if (date.getDay() >= 6) return [false, 'weekend'];
-    const formatedDate = `${t2d(date.getDate())}/${t2d(date.getMonth() + 1)}/${date.getFullYear()}`;
+    const formatedDate = `${date.getFullYear()}-${t2d(date.getMonth() + 1)}-${t2d(date.getDate())}`;
     if (this.takenDates.includes(formatedDate)) return [false, 'taken'];
     return [true, ''];
   }
@@ -39,16 +39,13 @@ export class GetShippingComponent implements OnInit {
         .addClass('disabled').removeClass('active');
       $('.four.steps .step.finish')
         .addClass('disabled').removeClass('active');
-
-      $('.datePicker').datepicker(
-        {
-          beforeShowDay: this.filterNonWorkingDays.bind(this),
-          minDate: 1, maxDate: "+2M",
-        }
-      );
-
-
     });
+
+    this.dataService.getTakenDates().subscribe(
+      data => {
+        this.takenDates = data.json().map(item => item.delivery_date);
+        this.initDatePicker();
+      });
 
     this.dataService.getCities().subscribe(
       cities => {
@@ -59,6 +56,18 @@ export class GetShippingComponent implements OnInit {
 
     this.dataService.getUserDetails();
 
+  }
+
+  initDatePicker() {
+    $(document).ready(() => {
+      $('.datePicker').datepicker(
+        {
+          beforeShowDay: this.filterNonWorkingDays.bind(this),
+          minDate: 1, maxDate: "+2M",
+          dateFormat: "yy-mm-dd"
+        }
+      );
+    });
   }
 
   autoStreet() {
@@ -90,7 +99,8 @@ export class GetShippingComponent implements OnInit {
           action: 'activate',
           onChange: (text, value) => {
             this.user.city_id_ship = text;
-            this.dataService.user.data.city_name = value;
+            this.user.city_name_ship = value;
+            //this.dataService.user.data.city_name = value;
             this.invalid = false;
           }
         });
@@ -100,14 +110,21 @@ export class GetShippingComponent implements OnInit {
   }
 
   valid() {
-    this.dataService.user.data.shipping_date = $(".datePicker").val();
-    // console.log(this.user.shipping_date)
-    // console.log(`${this.user.street_name_ship} && ${this.user.city_id_ship} && ${this.user.house_number_ship} && ${this.dataService.user.data.shipping_date}`)
+    return this.user.street_name_ship && this.user.city_id_ship && this.user.house_number_ship && this.isShippingValid();
+  }
 
-    return this.user.street_name_ship && this.user.city_id_ship && this.user.house_number_ship && this.dataService.user.data.shipping_date;
+  isShippingValid() {
+    this.dataService.user.data.shipping_date = $(".datePicker").val();
+    return (this.dataService.user.data.shipping_date ? true : false);
+  }
+
+
+  saveData() {
+    this.dataService.user.data = { ...this.dataService.user.data, ...this.user };
   }
 
 }
+
 
 
 

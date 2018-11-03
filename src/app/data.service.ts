@@ -10,12 +10,33 @@ export class DataService {
   apiUrl = environment.serverAdress;
 
   cart: any = { data: [] };
+  lastOrder: any = { data: { order: {}, data: [] } }
   search: any = { text: '' };
   products: any = { data: [] };
   user: any = { data: {} };
   activeProduct: any = { data: {} };
 
-  constructor(private http: Http) { }
+  constructor(private http: Http) {
+
+    // add toYMD prototype to Date
+    (function () {
+      Date.prototype.toYMD = Date_toYMD;
+      function Date_toYMD() {
+        var year, month, day;
+        year = String(this.getFullYear());
+        month = String(this.getMonth() + 1);
+        if (month.length == 1) {
+          month = "0" + month;
+        }
+        day = String(this.getDate());
+        if (day.length == 1) {
+          day = "0" + day;
+        }
+        return year + "-" + month + "-" + day;
+      }
+    })();
+
+  }
 
   getCities() {
     return this.http.get(this.apiUrl + 'api/cities');
@@ -51,9 +72,9 @@ export class DataService {
   }
 
   getProductDetails(code) {
-    return this.http.get(this.apiUrl +  "api/product/" + code);
+    return this.http.get(this.apiUrl + "api/product/" + code);
   }
-  
+
 
   updateProduct(product, code) {
     return this.http.put(this.apiUrl + 'api/updateProduct/' + code, product);
@@ -65,6 +86,11 @@ export class DataService {
 
   getCategories() {
     return this.http.get(this.apiUrl + 'api/categories');
+  }
+
+
+  getTakenDates() {
+    return this.http.get(this.apiUrl + 'api/takenDates');
   }
 
   getProductByCategory(category) {
@@ -92,7 +118,6 @@ export class DataService {
   }
 
   updateCartItemAmount(code, amount) {
-    console.log('try updarte');
     this.http.put(this.apiUrl + 'api/cartItem', { code, amount })
       .subscribe(
         cart => this.cart.data = cart.json(),
@@ -123,5 +148,38 @@ export class DataService {
         err => window.location.href = '/login'
       );
   }
+
+  placeOrder(callback) {
+    const userData = this.user.data;
+    const orderData = {
+      street: `${userData.street_name_ship}, ${userData.house_number_ship}`,
+      credit_card: userData.cardNumber.substring(userData.cardNumber.length - 4),
+      order_date: (new Date()).toYMD(),
+      delivery_date: userData.shipping_date,
+      city: userData.city_id_ship
+    };
+
+    this.http.post(this.apiUrl + 'api/placeOrder', orderData)
+      .subscribe(
+        order => {
+          callback();
+          this.lastOrder.data = order.json()
+        },
+        err => console.log(err)
+      );
+  }
+
+  getLastOrder() {
+    this.http.get(this.apiUrl + 'api/lastOrder')
+      .subscribe(
+        order => {
+          this.lastOrder.data = order.json()
+        },
+        err => window.location.href = '/login'
+      );
+  }
+
+
+
 
 }

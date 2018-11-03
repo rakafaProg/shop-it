@@ -11,6 +11,7 @@ export class WellcomeComponent implements OnInit {
   constructor(private dataService: DataService) { }
 
   cart: any = this.dataService.cart;
+  lastOrder: any = this.dataService.lastOrder;
   user: any = this.dataService.user;
 
   ngOnInit() {

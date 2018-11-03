@@ -43,7 +43,7 @@ exports.insertQuery = (table, textFields, numberFields, callback) => {
         if (err || !data.affectedRows) {
             callback(null, err);
         } else {
-            callback({ success: true, insertedId: data.insertedId });
+            callback({ success: true, insertedId: data.insertId });
         }
     });
 }

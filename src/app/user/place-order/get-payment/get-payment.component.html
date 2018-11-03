@@ -29,16 +29,6 @@
       <input type="text" placeholder="CVC" [(ngModel)]=user.data.cardCVC required #cardCVC="ngModel" (input)="invalid = false">
     </div>
 
-    <!-- <div class="ui error message" [ngClass]="{'visible': true}">
-      <div class="header">אנא מלאו כראוי את פרטי התשלום:</div>
-      <ul class="list">
-        <li *ngIf="userId.errors">נא למלא מספר זהות</li>
-        <li *ngIf="!userId.errors && !validateID()">מספר הזהות שהוכנס אינו תקין</li>
-        <li *ngIf="cardNumber.errors && cardNumber.errors.required">נא להכניס מספר אשראי</li>
-        <li *ngIf="password.errors && password.errors.minlength">הסיסמה חייבת להכיל לפחות 8 תווים</li>
-      </ul>
-    </div> -->
-
   </div>
 </div>
 
@@ -48,7 +38,7 @@
     לשלב הקודם
   </button>
   <div class="or" data-text="או"></div>
-  <button [disabled]="!formValid()" class="ui positive button" routerLink='/happ/place-order/print-recipt'>
+    <button [disabled]="!formValid() || isLoading" class="ui positive button" [ngClass]="{'loading':  isLoading}"  (click)=placeOrder() >
     <i class="check icon"></i>
     אשר תשלום והזמנה
   </button>
