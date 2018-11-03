@@ -31,6 +31,7 @@ import { ViewUserDetailsComponent } from './user/profile/view-user-details/view-
 import { Nl2brPipe } from './nl2br.pipe';
 import { GetShippingComponent } from './user/place-order/get-shipping/get-shipping.component';
 import { GetPaymentComponent } from './user/place-order/get-payment/get-payment.component';
+import { MarkSearchPipe } from './mark-search.pipe';
 
 @NgModule({
   declarations: [
@@ -60,7 +61,8 @@ import { GetPaymentComponent } from './user/place-order/get-payment/get-payment.
     ViewUserDetailsComponent,
     Nl2brPipe,
     GetShippingComponent,
-    GetPaymentComponent
+    GetPaymentComponent,
+    MarkSearchPipe
   ],
   imports: [
     BrowserModule,

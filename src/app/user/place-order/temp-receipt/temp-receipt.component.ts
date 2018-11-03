@@ -13,6 +13,7 @@ export class TempReceiptComponent implements OnInit {
   editedItem: any = null; 
   editedAmount = 0;
   cart: any = this.dataService.cart;
+  searchText = "";
 
   ngOnInit() {
     $(document).ready(() => {

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DataService } from '../../../data.service';
+import { Router } from '@angular/router';
 declare var $: any;
 @Component({
   selector: 'print-receipt',
@@ -8,12 +9,11 @@ declare var $: any;
 })
 export class PrintReceiptComponent implements OnInit {
 
-  constructor(private dataService: DataService) { }
+  constructor(private dataService: DataService, private router: Router) { }
 
   cart: any = this.dataService.cart;
   reciptNumber = '10001';
   user: any = this.dataService.user;
-  payment = { card: 1885 };
 
 
   ngOnInit() {
@@ -27,6 +27,15 @@ export class PrintReceiptComponent implements OnInit {
       $('.four.steps .step.finish')
         .addClass('active').removeClass('disabled');
     });
+
+
+    const card = this.dataService.user.data.cardNumber;
+    if (!card) {
+      //window.location.href = '/happ/place-order/payment';
+      this.router.navigate(['/happ/place-order/payment'])
+      return;
+    }
+    this.dataService.user.data.cardNumber = card.substring(card.length - 4);
   }
 
   onPrintClick() {

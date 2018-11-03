@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Location } from '@angular/common';
 import { DataService } from '../../../data.service';
-import { log } from 'util';
 
 declare var $: any;
 
@@ -12,7 +10,7 @@ declare var $: any;
 })
 export class GetShippingComponent implements OnInit {
 
-  constructor(private dataService: DataService, private location: Location) { }
+  constructor(private dataService: DataService) { }
 
   cities: any = [];
   user: any = {};
@@ -64,19 +62,19 @@ export class GetShippingComponent implements OnInit {
   }
 
   autoStreet() {
-    this.user.street_name = this.userData.data.street_name;
+    this.user.street_name_ship = this.userData.data.street_name;
   }
 
   autoHouseNumber() {
-    this.user.house_number = this.userData.data.house_number;
+    this.user.house_number_ship = this.userData.data.house_number;
   }
 
   autoCity() {
-    this.user.city_id = this.userData.data.city_id;
+    this.user.city_id_ship = this.userData.data.city_id;
     $('.ui.dropdown')
       .dropdown(
         'set selected',
-        this.user.city_id
+        this.user.city_id_ship
       )
       .dropdown(
         'hide'
@@ -91,34 +89,27 @@ export class GetShippingComponent implements OnInit {
           placeholder: 'עיר מגורים',
           action: 'activate',
           onChange: (text, value) => {
-            this.user.city_id = text;
+            this.user.city_id_ship = text;
             this.dataService.user.data.city_name = value;
             this.invalid = false;
           }
         });
+
+      $(".field .dropdown .menu").css("z-index", "10000002");
     });
   }
 
-  onBackClick() {
-    this.location.back();
+  valid() {
+    this.dataService.user.data.shipping_date = $(".datePicker").val();
+    // console.log(this.user.shipping_date)
+    // console.log(`${this.user.street_name_ship} && ${this.user.city_id_ship} && ${this.user.house_number_ship} && ${this.dataService.user.data.shipping_date}`)
+
+    return this.user.street_name_ship && this.user.city_id_ship && this.user.house_number_ship && this.dataService.user.data.shipping_date;
   }
 
 }
 
 
-var HOLIDAYS = {  // Ontario, Canada holidays
-  2017: {
-    1: { 1: "New Year's Day" },
-    2: { 20: "Family Day" },
-    4: { 17: "Easter Monday" },
-    5: { 22: "Victoria Day" },
-    7: { 1: "Canada Day" },
-    8: { 7: "Civic Holiday" },
-    9: { 4: "Labour Day" },
-    10: { 9: "Thanksgiving" },
-    12: { 25: "Christmas", 26: "Boxing Day" }
-  }
-};
 
 function t2d(num) {
   if (num < 10) {

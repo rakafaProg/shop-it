@@ -1,15 +1,54 @@
-<p>
-  get-payment works!
-</p>
+<div class="ui form">
+  <div class="ui stacked segment orange">
 
+    <h2 class="ui header orange">פרטי אשראי</h2>
+    <p class="ui sub header">
+      אנא מלא פרטי אשראי באמצעות תרצה לשלם
+      <br> *שים לב - זהו אתר דמה. פרטי האשראי שלך לא יישלחו באמצעות המערכת
+      <br>
+    </p>
+
+
+    <div class="ui left icon fluid field input" [ngClass]="{'error': ( cardNumber.invalid || !validateCard() ) && (cardNumber.dirty || cardNumber.touched)}">
+      <i class="credit card icon"></i>
+      <input type="text" placeholder="מספר כרטיס" [(ngModel)]=user.data.cardNumber required #cardNumber="ngModel" (input)="invalid = false">
+    </div>
+
+    <div class="ui left icon fluid field input" [ngClass]="{'error': cardUser.invalid && (cardUser.dirty || cardUser.touched)}">
+      <i class="user icon"></i>
+      <input type="text" placeholder="שם בעל הכרטיס" [(ngModel)]=user.data.cardUser required #cardUser="ngModel" (input)="invalid = false">
+    </div>
+
+    <div class="ui left icon fluid field input" [ngClass]="{'error': (cardDate.invalid || !validateDate()) && (cardDate.dirty || cardDate.touched)}">
+      <i class="calendar outline icon"></i>
+      <input type="text" placeholder="MM/YY" [(ngModel)]=user.data.cardDate required #cardDate="ngModel" (input)="invalid = false">
+    </div>
+
+    <div class="ui left icon fluid field input" [ngClass]="{'error': (cardCVC.invalid || !validateCVC()) && (cardCVC.dirty || cardCVC.touched)}">
+      <i class="lock icon"></i>
+      <input type="text" placeholder="CVC" [(ngModel)]=user.data.cardCVC required #cardCVC="ngModel" (input)="invalid = false">
+    </div>
+
+    <!-- <div class="ui error message" [ngClass]="{'visible': true}">
+      <div class="header">אנא מלאו כראוי את פרטי התשלום:</div>
+      <ul class="list">
+        <li *ngIf="userId.errors">נא למלא מספר זהות</li>
+        <li *ngIf="!userId.errors && !validateID()">מספר הזהות שהוכנס אינו תקין</li>
+        <li *ngIf="cardNumber.errors && cardNumber.errors.required">נא להכניס מספר אשראי</li>
+        <li *ngIf="password.errors && password.errors.minlength">הסיסמה חייבת להכיל לפחות 8 תווים</li>
+      </ul>
+    </div> -->
+
+  </div>
+</div>
 
 <div class="ui fluid buttons">
-  <button class="ui orange button" (click)="onBackClick()">
+  <button class="ui orange button" routerLink='/happ/place-order/shipping'>
     <i class="play icon"></i>
     לשלב הקודם
   </button>
   <div class="or" data-text="או"></div>
-  <button class="ui positive button" routerLink='/happ/place-order/print-recipt'>
+  <button [disabled]="!formValid()" class="ui positive button" routerLink='/happ/place-order/print-recipt'>
     <i class="check icon"></i>
     אשר תשלום והזמנה
   </button>

@@ -1,3 +1,8 @@
+<div class="ui left icon  field input" >
+  <i class="search icon"></i>
+  <input type="text" placeholder="חיפוש בקבלה" [(ngModel)]="searchText">
+</div>
+
 <table class="ui unstackable  table">
   <thead>
     <tr class="ui header">
@@ -30,15 +35,16 @@
         <h4 class="ui image header">
           <img src="{{item.imageUrl}}" class="ui medium rounded image">
           <div class="content">
-            {{item.name}}
-            <div class="sub header">
-              {{item.details}}
+            <div innerHTML="{{ item.name | markSearch : searchText}}">
+            </div>
+            <div class="sub header" innerHTML="{{ item.details | markSearch : searchText}}">
             </div>
           </div>
         </h4>
       </td>
       <td>
-        {{item.code}}
+        <div innerHTML="{{ item.code | markSearch : searchText}}">
+        </div>
       </td>
       <td>
         {{item.price | number:'1.2'}}
