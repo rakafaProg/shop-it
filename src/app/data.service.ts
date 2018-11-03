@@ -18,23 +18,20 @@ export class DataService {
 
   constructor(private http: Http) {
 
-    // add toYMD prototype to Date
-    (function () {
-      Date.prototype.toYMD = Date_toYMD;
-      function Date_toYMD() {
-        var year, month, day;
-        year = String(this.getFullYear());
-        month = String(this.getMonth() + 1);
-        if (month.length == 1) {
-          month = "0" + month;
-        }
-        day = String(this.getDate());
-        if (day.length == 1) {
-          day = "0" + day;
-        }
-        return year + "-" + month + "-" + day;
-      }
-    })();
+  }
+
+  Date_toYMD(dt) {
+    var year, month, day;
+    year = String(dt.getFullYear());
+    month = String(dt.getMonth() + 1);
+    if (month.length == 1) {
+      month = "0" + month;
+    }
+    day = String(dt.getDate());
+    if (day.length == 1) {
+      day = "0" + day;
+    }
+    return year + "-" + month + "-" + day;
 
   }
 
@@ -50,6 +47,10 @@ export class DataService {
     return this.http.get(this.apiUrl + 'api/countOrders');
   }
 
+  isIdTaken(id) {
+    return this.http.get(this.apiUrl + 'api/isValidId/' + id);
+  }
+
 
   signUp(user) {
     return this.http.post(this.apiUrl + 'signup', user);
@@ -57,6 +58,17 @@ export class DataService {
 
   login(user) {
     return this.http.post(this.apiUrl + 'login', user);
+  }
+
+  logout() {
+    return this.http.get(this.apiUrl + "logout").subscribe(
+      () => {
+        setTimeout(() => {
+          console.log("timeout");
+          window.location.href = '/about';
+        }, 400);
+      }
+    );
   }
 
   getUserDetails() {
@@ -154,7 +166,7 @@ export class DataService {
     const orderData = {
       street: `${userData.street_name_ship}, ${userData.house_number_ship}`,
       credit_card: userData.cardNumber.substring(userData.cardNumber.length - 4),
-      order_date: (new Date()).toYMD(),
+      order_date: this.Date_toYMD(new Date()),
       delivery_date: userData.shipping_date,
       city: userData.city_id_ship
     };

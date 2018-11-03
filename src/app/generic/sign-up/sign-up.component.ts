@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { DataService } from '../../data.service';
 declare var $: any;
 
 @Component({
@@ -8,11 +9,12 @@ declare var $: any;
 })
 export class SignUpComponent implements OnInit {
 
-  constructor() { }
+  constructor(private dataService: DataService) { }
 
   state = 1;
   invalid = false;
   user: any = {};
+  isTakenId = false;
 
   ngOnInit() {
 
@@ -22,6 +24,7 @@ export class SignUpComponent implements OnInit {
 
 
     if (
+      !this.isTakenId &&
       this.validateID() &&
       this.validateEmail() &&
       this.user.phone && this.user.phone.length >= 11 &&
@@ -50,6 +53,17 @@ export class SignUpComponent implements OnInit {
       return (sum % 10 == 0);
     }
     return false;
+  }
+
+  takenId() {
+    if (!this.validateID()) {
+      this.isTakenId = false;
+    } else {
+      this.dataService.isIdTaken(this.user.id)
+        .subscribe(
+          data => this.isTakenId = !(data.json().valid)
+        );
+    }
   }
 
   validateEmail() {

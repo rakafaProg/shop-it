@@ -3,6 +3,8 @@ const db = require('./db');
 const jwt = require('jsonwebtoken');
 const cookieParser = require('cookie-parser');
 
+const MAX_AGE = 86400 * 1000;
+
 const router = express.Router();
 let userToken = {};
 let userId = '';
@@ -41,7 +43,7 @@ router.get('/api/countProducts', (req, res) => {
 
 const createToken = user => {
     return jwt.sign(user, 'aetbikauhgihnkjbnikasbugfui', {
-        expiresIn: 86400 // expires in 24 hours
+        expiresIn: MAX_AGE // expires in 24 hours
     });
 }
 
@@ -51,9 +53,32 @@ const decodeToken = (token, callback) => {
 
 router.use(cookieParser());
 
+router.get('/logout', (req, res, next) => {
+    res.cookie('tokenid', '', { expires: new Date(1), path: '/' });
+    console.log("logging out")
+    res.send('logged out');
+
+});
+
+router.get('/api/isValidId/:id', (req, res) => {
+    const id = req.params.id;
+    const sql = 'SELECT id FROM users WHERE id=' + id;
+    db.getQuery(
+        sql,
+        (user, err) => {
+            if (err) {
+                res.status(500).send(err);
+            } else {
+                res.send({ valid: user.length == 0 });
+            }
+        }
+    )
+
+});
+
 router.post('/signup', (req, res) => {
-    console.log('user want to sign up');
-    console.log(req.body);
+    // console.log('user want to sign up');
+    // console.log(req.body);
     if (validateSignUpForm(req.body.user)) {
         // extract fields: 
         const { id, email, phone, password, city_id, first_name, last_name, street_name, house_number } = req.body.user;
@@ -63,7 +88,7 @@ router.post('/signup', (req, res) => {
             { city_id },
             (data, err) => {
                 if (!err && data.success) {
-                    res.cookie('tokenid', createToken({ id, created: new Date() }), { maxAge: 86400 });
+                    res.cookie('tokenid', createToken({ id, created: new Date() }), { maxAge: MAX_AGE });
                     res.send({ success: true, toUrl: '/happ' });
                 } else {
                     res.status(500).send({ success: false, msg: 'User Creating Failed.' });
@@ -80,7 +105,7 @@ router.post('/login', (req, res) => {
         db.getQuery(`SELECT first_name FROM USERS WHERE id='${id}' AND password='${password}'`, (data, err) => {
             if (!err && data.length > 0) {
                 db.getQuery(`SELECT * FROM admins WHERE id='${id}'`, (data, err) => {
-                    res.cookie('tokenid', createToken({ id }), { maxAge: 86400 });
+                    res.cookie('tokenid', createToken({ id, isAdmin: !err && data.length }), { maxAge: MAX_AGE });
                     if (!err && data.length > 0)
                         res.status(200).send({ success: true, toUrl: '/admin' });
                     else
@@ -105,24 +130,25 @@ router.use((req, res, next) => {
         decodeToken(req.cookies.tokenid, (err, decoded) => {
             if (!err) {
                 userToken.id = decoded.id;
+                userToken.isAdmin = decoded.isAdmin;
                 userToken.created = decoded.created;
                 userId = userToken.id;
-                res.cookie('tokenid', req.cookies.tokenid, { maxAge: 86400 });
+                res.cookie('tokenid', req.cookies.tokenid, { maxAge: MAX_AGE });
             }
         });
     }
     next();
 });
 
-// handle cli
-router.use((req, res, next) => {
-    if (req.headers.origin && req.headers.origin.includes('localhost:4200')) {
-        userToken.id = '111111118';
-        userToken.created = false;
-        userId = userToken.id;
-    }
-    next();
-})
+// handle cli - Remove in production!!
+// router.use((req, res, next) => {
+//     if (req.headers.origin && req.headers.origin.includes('localhost:4200')) {
+//         userToken.id = '111111118';
+//         userToken.created = false;
+//         userId = userToken.id;
+//     }
+//     next();
+// })
 
 router.use(['/happ', '/admin'], (req, res, next) => {
     if (!userToken.id) {
@@ -131,6 +157,24 @@ router.use(['/happ', '/admin'], (req, res, next) => {
     }
     next();
 });
+
+// handle admin leak
+router.use('/admin', (req, res, next) => {
+    if (!userToken.isAdmin) {
+        res.redirect('/happ');
+        return;
+    }
+    next();
+});
+
+// handle user leak
+router.use('/happ', (req, res, next) => {
+    if (userToken.isAdmin) {
+        res.redirect('/admin');
+        return;
+    }
+    next();
+})
 
 router.use('/api', (req, res, next) => {
     if (!userToken.id) {
@@ -162,17 +206,17 @@ router.get('/api/user', (req, res) => {
 //==================================
 
 function validateSignUpForm(user) {
-    console.log('Validating Form');
-    console.log('validateID(user)', validateID(user));
-    console.log('validateEmail(user)', validateEmail(user));
-    console.log('user.phone && user.phone.length >= 11', user.phone && user.phone.length >= 11);
-    console.log('user.password && user.password.length >= 8', user.password && user.password.length >= 8);
-    console.log('user.repeatPassword === user.password', user.repeatPassword === user.password);
-    console.log('user.first_name', user.first_name);
-    console.log('user.last_name', user.last_name);
-    console.log('user.city_id', user.city_id);
-    console.log('user.street_name', user.street_name);
-    console.log('user.house_number', user.house_number);
+    // console.log('Validating Form');
+    // console.log('validateID(user)', validateID(user));
+    // console.log('validateEmail(user)', validateEmail(user));
+    // console.log('user.phone && user.phone.length >= 11', user.phone && user.phone.length >= 11);
+    // console.log('user.password && user.password.length >= 8', user.password && user.password.length >= 8);
+    // console.log('user.repeatPassword === user.password', user.repeatPassword === user.password);
+    // console.log('user.first_name', user.first_name);
+    // console.log('user.last_name', user.last_name);
+    // console.log('user.city_id', user.city_id);
+    // console.log('user.street_name', user.street_name);
+    // console.log('user.house_number', user.house_number);
     return (
         validateID(user) &&
         validateEmail(user) &&

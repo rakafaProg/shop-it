@@ -74,7 +74,7 @@ export class GetPaymentComponent implements OnInit {
         this.isLoading = false;
         this.router.navigate(['/happ/place-order/print-recipt'])
       })
-    }, 3000);
+    }, 200);
   }
 
 

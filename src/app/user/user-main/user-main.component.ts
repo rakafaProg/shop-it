@@ -8,7 +8,7 @@ import { DataService } from '../../data.service';
 })
 export class UserMainComponent implements OnInit {
 
-  userName = 'שם משתמש';
+  userName = '';
   user: any = this.dataService.user;
 
   constructor(private dataService: DataService) { }
@@ -19,6 +19,10 @@ export class UserMainComponent implements OnInit {
     this.dataService.getCart();
     this.dataService.getUserDetails();
     this.dataService.getLastOrder();
+  }
+
+  logout() {
+    this.dataService.logout();
   }
 
 }

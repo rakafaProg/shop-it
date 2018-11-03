@@ -354,7 +354,6 @@ function getLastOrder(res) {
     db.getQuery(
         selectOne,
         (order, err) => {
-            console.log(order)
             if (err || !order.length) {
                 res.send({ order: {}, data: [] });
             } else {

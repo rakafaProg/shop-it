@@ -42,6 +42,10 @@ const routes: Routes = [
         path: 'signup',
         component: SignUpComponent,
       },
+      {
+        path: 'logout',
+        component: SignUpComponent,
+      },
     ]
   },
   {

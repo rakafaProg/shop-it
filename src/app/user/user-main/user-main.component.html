@@ -20,11 +20,11 @@
   <div class="right menu"></div>
 
 
-  <a class="item ui header yellow" routerLink="./profile">
+  <div class="item ui header yellow">
     <i class="id badge outline icon"></i>
     {{user.data.first_name}} {{user.data.last_name}}&nbsp;&nbsp;
-  </a>
-  <a class="item ui header yellow" routerLink="/">
+  </div>
+  <a class="item ui header yellow" (click)=logout()>
     <i class="sign out alternate icon"></i>
     התנתק&nbsp;&nbsp;
   </a>

@@ -17,7 +17,7 @@
       </p>
       <div *ngIf="state==1">
         <div class="ui left icon fluid field input" 
-          [ngClass]="{'error': (userId.invalid || !validateID()) && (userId.dirty || userId.touched)}"
+          [ngClass]="{'error': (userId.invalid || !validateID() || isTakenId) && (userId.dirty || userId.touched)}"
         >
           <i class="id badge icon"></i>
           <input type="text" 
@@ -26,7 +26,7 @@
           required 
           #userId="ngModel" 
           [(ngModel)]=user.id
-          (input)="invalid = false">
+          (input)="invalid = false; takenId()">
         </div>
 
         <div class="ui left icon fluid field input"
@@ -86,6 +86,7 @@
           <div class="header">פרטי הרשמה חסרים:</div>
           <ul class="list">
             <li *ngIf="userId.errors">נא למלא מספר זהות</li>
+            <li *ngIf="!userId.errors && isTakenId">מספר הזהות שהוכנס נמצא כבר בשימוש</li>
             <li *ngIf="!userId.errors && !validateID()">מספר הזהות שהוכנס אינו תקין</li>
             <li *ngIf="emailAddress.errors">נא למלא כתובת אימייל</li>
             <li *ngIf="!emailAddress.errors && !validateEmail()">כתובת המייל שהוכנסה אינה תקינה</li>
